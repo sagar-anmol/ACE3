@@ -1,38 +1,65 @@
 package com.example.myapplication.ui.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val GreenColorScheme = lightColorScheme(
-    primary = Color(0xFF2ECC71),          // main green
+// --- Light Scheme ---
+private val LightColorScheme = lightColorScheme(
+    primary = MintPrimary,
     onPrimary = Color.White,
-    primaryContainer = Color(0xFFA3E4D7),
-    onPrimaryContainer = Color(0xFF003824),
+    primaryContainer = MintLight,
+    onPrimaryContainer = MintDark,
 
-    secondary = Color(0xFF27AE60),
+    secondary = BlueAccent,
     onSecondary = Color.White,
+    secondaryContainer = Color(0xFFE1F5FE),
+    onSecondaryContainer = BlueDark,
 
-    tertiary = Color(0xFFF1C40F),
-    onTertiary = Color(0xFF4A3B00),
+    background = BackgroundLight,
+    onBackground = TextPrimaryLight,
 
-    background = Color(0xFFE9F7EF),
-    onBackground = Color(0xFF083220),
+    surface = SurfaceLight,
+    onSurface = TextPrimaryLight,
 
-    surface = Color(0xFFFFFFFF),
-    onSurface = Color(0xFF083220),
+    error = ErrorRed,
+    onError = Color.White
+)
 
-    error = Color(0xFFE74C3C),
+// --- Dark Scheme ---
+private val DarkColorScheme = darkColorScheme(
+    primary = MintPrimary,
+    onPrimary = Color.White,
+    primaryContainer = MintDark,
+    onPrimaryContainer = MintLight,
+
+    secondary = BlueAccent,
+    onSecondary = Color.White,
+    secondaryContainer = BlueDark,
+    onSecondaryContainer = Color.White,
+
+    background = BackgroundDark,
+    onBackground = TextPrimaryDark,
+
+    surface = SurfaceDark,
+    onSurface = TextPrimaryDark,
+
+    error = ErrorRed,
     onError = Color.White
 )
 
 @Composable
 fun DementiaAppTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+
     MaterialTheme(
-        colorScheme = GreenColorScheme,
+        colorScheme = colorScheme,
         content = content
     )
 }

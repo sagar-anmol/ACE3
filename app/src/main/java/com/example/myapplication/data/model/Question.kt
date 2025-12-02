@@ -16,6 +16,7 @@ data class Question(
 
 data class UserInfo(
     val name: String = "",
-    val age: String = "",
-    val education: String = ""
+    val age: Int,
+    val education: Int,
+    val dob: String = ""
 )

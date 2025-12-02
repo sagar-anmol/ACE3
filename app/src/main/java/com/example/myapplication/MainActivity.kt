@@ -4,17 +4,21 @@ import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.myapplication.data.QuestionRepository
 import com.example.myapplication.data.model.Question
 import com.example.myapplication.data.model.UserInfo
@@ -28,6 +32,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Hide Status Bar and Navigation Bar for immersive mode
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+
         // Request mic permission on start
         audioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
 
@@ -62,7 +72,7 @@ fun DementiaRemoteSelfTestApp() {
 
     // 3. User & Navigation State
     var currentScreen by remember { mutableStateOf(ScreenState.INTRO_1) }
-    var userInfo by remember { mutableStateOf(UserInfo()) }
+    var userInfo by remember { mutableStateOf(UserInfo(age = 0, education = 0)) }
     var currentIndex by remember { mutableStateOf(0) }
 
     // 4. Answer Storage

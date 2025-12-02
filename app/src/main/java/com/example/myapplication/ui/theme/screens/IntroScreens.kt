@@ -16,7 +16,7 @@ import com.example.myapplication.data.model.UserInfo
 fun IntroScreen1(onNext: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Column(modifier = Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("ACE Dementia\nSelf-Test", style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center)
+            Text("ACE Dementia\nA-I powered\nSelf-Test", style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center)
             Spacer(modifier = Modifier.height(24.dp))
             Button(onClick = onNext) { Text("Start") }
         }
@@ -46,7 +46,7 @@ fun IntroScreen3(
     onBack: () -> Unit,
     onStartTest: () -> Unit
 ) {
-    val isValid = userInfo.name.isNotBlank() && userInfo.age.isNotBlank()
+    val isValid = userInfo.name.isNotBlank() && userInfo.dob.isNotBlank()
     Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Column(modifier = Modifier.align(Alignment.Center)) {
             Text("Your Details", style = MaterialTheme.typography.headlineSmall)
@@ -58,14 +58,13 @@ fun IntroScreen3(
             )
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
-                value = userInfo.age,
-                onValueChange = { onUserInfoChange(userInfo.copy(age = it)) },
-                label = { Text("Age") }, modifier = Modifier.fillMaxWidth()
+                value = userInfo.dob,
+                onValueChange = { onUserInfoChange(userInfo.copy(dob = it)) },
+                label = { Text("Date of Birth") }, modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(24.dp))
             Row {
-                OutlinedButton(onClick = onBack, modifier = Modifier.weight(1f)) { Text("Back") }
-                Spacer(modifier = Modifier.width(16.dp))
+
                 Button(onClick = onStartTest, enabled = isValid, modifier = Modifier.weight(1f)) { Text("Start Test") }
             }
         }
