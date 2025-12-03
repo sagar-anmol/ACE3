@@ -28,7 +28,7 @@
   },
   {
     "id": 4,
-    "title": "what is the Season",
+    "title": "what is the Year",
     "description": "",
     "type": "AUDIO",
     "options": [],
@@ -37,20 +37,85 @@
   },
   {
     "id": 5,
-    "title": "Orientation – Place",
-    "description": "Which country are you currently in?",
-    "type": "SINGLE_CHOICE",
-    "options": ["India", "USA", "UK", "Other"],
-    "correctOptionIndex": 0,
+    "title": "what is the Season",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
     "correctTextAnswers": []
   },
   {
     "id": 6,
-    "title": "Memory – Recall",
-    "description": "Type the three words you memorized earlier.",
-    "type": "TEXT",
+    "title": "Which floor",
+    "description": "",
+    "type": "AUDIO",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["apple table penny"]
+    "correctTextAnswers": []
+  },
+  {
+    "id": 7,
+    "title": "Which Street",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 8,
+    "title": "Which City",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 9,
+    "title": "Which State",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 10,
+    "title": "Which Country",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 11,
+    "title": "I'm going to give you three words and I'd like you to repeat them after me: lemon, key and ball.",
+    "description": "Repeat three words after me",
+    "type": "Audio",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["lemon,key,ball"],
+    "repeatationAfterAnswering": "Please remember the words, I am going to ask you later"
+  },
+  {
+    "id": 12,
+    "title": "Could you take 7 away from 100? I'd like you to keep taking 7 away from each new  number until I tell you to stop.",
+    "description": "Stop After you get to 65",
+    "type": "Audio",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["93,86,79,72,65"]
+  },
+  {
+    "id": 13,
+    "title": "Which 3 words did I ask you to repeat and remember",
+    "description": "",
+    "type": "Audio",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["lemon,key,ball"]
   }
+
 ]
