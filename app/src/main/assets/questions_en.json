@@ -119,6 +119,69 @@
   },
   {
     "id": 14,
+    "title": "I'm going to give you a letter of the alphabet and I'd like you to generate as many words as you can beginning with that letter, but not names of people or places. For example, if I give you the letter C, you could give me words like cat, cry, clock and so on. But, you can't give me words like Catherine or Canada.Do you understand? Are you ready? You have one minute. The letter I want you to use is the letter 'p' ",
+    "description": "Words with letter C",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 15,
+    "title": "Now can you name as many animals as possible. It can begin with any letter.",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 16,
+    "title": "I'm going to give you a name and address and I'd like you to repeat the name and address after me. So you have a chance to learn, we'll be doing that 3 times. I'll ask you the name and address later, The name and address is Sunil Kumar Singh 52, Station Road, Gandhinagar, Allahabad.",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 17,
+    "title": "Name the current Chief Minister",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 18,
+    "title": "Name the Prime Minister of india ",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 19,
+    "title": "Name the actor who was hero in the film 'Mera Naam Joker ",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 20,
+    "title": "Name the Father of our Nation",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 21,
     "title": "Three-step commands (Language)",
     "description": "Follow the commands by moving the pencil and paper.",
     "type": "ACTION_SEQUENCE",
@@ -143,7 +206,312 @@
         "requiredActions": ["TOUCH_PAPER", "PASS_PENCIL"]
       }
     ]
+  },
+
+  {
+    "id": 22,
+    "title": " write two (or more) complete sentences about your last  holiday or weekend or festival. Write in complete sentences and do not use abbreviations",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 23,
+    "title": " Repeat words after me: 'caterpillar'; 'eccentricity; 'unintelligible'; 'statistician'",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["caterpillar", "eccentricity", "unintelligible", "statistician"]
+  },
+  {
+    "id": 24,
+    "title": " Repeat sentence after me: All that glitters is not gold",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["All that glitters is not gold"]
+  },
+  {
+    "id": 25,
+    "title": " Repeat sentence after me:A stitch in time saves nine",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["A stitch in time saves nine"]
+  },
+  {
+    "id": 26,
+    "title": " Repeat sentence after me:A stitch in time saves nine",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["A stitch in time saves nine"]
+  },
+  {
+    "id": 27,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Book"]
+  },
+  {
+    "id": 28,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Spoon"]
+  },
+  {
+    "id": 29,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Goat"]
+  },
+  {
+    "id": 30,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Candle"]
+  },
+  {
+    "id": 31,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Flag"]
+  },
+  {
+    "id": 32,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Camel"]
+  },
+  {
+    "id": 33,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Sickle"]
+  },
+  {
+    "id": 34,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Giraffe"]
+  },
+  {
+    "id": 35,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Drum"]
+  },
+  {
+    "id": 36,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Umbrella"]
+  },
+  {
+    "id": 37,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Pig"]
+  },
+  {
+    "id": 38,
+    "title": "Name the picture shown to you",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Crocodile"]
+  },
+  {
+    "id": 39,
+    "title": "point out to the one which is used in the rain",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Umbrella"]
+  },
+  {
+    "id": 40,
+    "title": "point out to the one which emits light",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Candle"]
+  },
+  {
+    "id": 41,
+    "title": "point out to the one which is associated with farming",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Sickle"]
+  },
+  {
+    "id": 42,
+    "title": "point out to the one which found in desert",
+    "description": "",
+    "type": "text",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["Camel"]
+  },
+  {
+    "id": 43,
+    "title": "Read the following words",
+    "description": "sew, pint, soot, dough, height",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["sew", "pint", "soot", "dough", "height"]
+  },
+  {
+    "id": 44,
+    "title": "Copy the diagram",
+    "description": "",
+    "type": "image",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 45,
+    "title": "Copy the diagram",
+    "description": "",
+    "type": "image",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 46,
+    "title": "Draw a clock face with numbers and the hands at ten past five",
+    "description": "",
+    "type": "image",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 47,
+    "title": "Count the dots in the image without pointing to them",
+    "description": "Don't touch or point the dots on the screen",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 48,
+    "title": "Count the dots in the image without pointing to them",
+    "description": "Don't touch or point the dots on the screen",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 49,
+    "title": "Count the dots in the image without pointing to them",
+    "description": "Don't touch or point the dots on the screen",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 50,
+    "title": "Count the dots in the image without pointing to them",
+    "description": "Don't touch or point the dots on the screen",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": []
+  },
+  {
+    "id": 51,
+    "title": "Identify the letter in the image",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["K"]
+  },
+  {
+    "id": 52,
+    "title": "Identify the letter in the image",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["M"]
+  },
+  {
+    "id": 53,
+    "title": "Identify the letter in the image",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["A"]
+  },
+  {
+    "id": 54,
+    "title": "Identify the letter in the image",
+    "description": "",
+    "type": "AUDIO",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": ["T"]
   }
+
+
+
+
+
+
+
 
 
 ]
