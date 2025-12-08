@@ -28,6 +28,10 @@
         "source": "com.example.myapplication.app-main-36:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
+        "merged": "com.example.myapplication.app-debug-34:/drawable_paper.png.flat",
+        "source": "com.example.myapplication.app-main-36:/drawable/paper.png"
+    },
+    {
         "merged": "com.example.myapplication.app-debug-34:/mipmap-mdpi_ic_launcher.webp.flat",
         "source": "com.example.myapplication.app-main-36:/mipmap-mdpi/ic_launcher.webp"
     },
@@ -36,12 +40,20 @@
         "source": "com.example.myapplication.app-main-36:/drawable/ic_launcher_foreground.xml"
     },
     {
+        "merged": "com.example.myapplication.app-debug-34:/drawable_pencil.png.flat",
+        "source": "com.example.myapplication.app-main-36:/drawable/pencil.png"
+    },
+    {
         "merged": "com.example.myapplication.app-debug-34:/xml_backup_rules.xml.flat",
         "source": "com.example.myapplication.app-main-36:/xml/backup_rules.xml"
     },
     {
         "merged": "com.example.myapplication.app-debug-34:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
         "source": "com.example.myapplication.app-main-36:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.myapplication.app-debug-34:/drawable_box.png.flat",
+        "source": "com.example.myapplication.app-main-36:/drawable/box.png"
     },
     {
         "merged": "com.example.myapplication.app-debug-34:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",

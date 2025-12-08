@@ -7,8 +7,11 @@ color purple_700
 color teal_200
 color teal_700
 color white
+drawable box
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable paper
+drawable pencil
 mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name

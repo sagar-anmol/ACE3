@@ -93,7 +93,7 @@
     "id": 11,
     "title": "I'm going to give you three words and I'd like you to repeat them after me: lemon, key and ball.",
     "description": "Repeat three words after me",
-    "type": "Audio",
+    "type": "AUDIO",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": ["lemon,key,ball"],
@@ -103,7 +103,7 @@
     "id": 12,
     "title": "Could you take 7 away from 100? I'd like you to keep taking 7 away from each new  number until I tell you to stop.",
     "description": "Stop After you get to 65",
-    "type": "Audio",
+    "type": "AUDIO",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": ["93,86,79,72,65"]
@@ -112,10 +112,38 @@
     "id": 13,
     "title": "Which 3 words did I ask you to repeat and remember",
     "description": "",
-    "type": "Audio",
+    "type": "AUDIO",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": ["lemon,key,ball"]
+  },
+  {
+    "id": 14,
+    "title": "Three-step commands (Language)",
+    "description": "Follow the commands by moving the pencil and paper.",
+    "type": "ACTION_SEQUENCE",
+    "options": [],
+    "correctOptionIndex": -1,
+    "correctTextAnswers": [],
+    "steps": [
+      {
+        "command": "Practice: Pick up the pencil and then the paper.",
+        "requiredActions": ["PICK_PENCIL", "PICK_PAPER"]
+      },
+      {
+        "command": "Place the paper on top of the pencil.",
+        "requiredActions": ["PLACE_PAPER_ON_PENCIL"]
+      },
+      {
+        "command": "Pick up the pencil but not the paper.",
+        "requiredActions": ["PICK_PENCIL_ONLY"]
+      },
+      {
+        "command": "Pass me the pencil after touching the paper.",
+        "requiredActions": ["TOUCH_PAPER", "PASS_PENCIL"]
+      }
+    ]
   }
+
 
 ]

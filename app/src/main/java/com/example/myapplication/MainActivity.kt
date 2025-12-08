@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         // Hide Status Bar and Navigation Bar for immersive mode
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -79,16 +79,19 @@ fun DementiaRemoteSelfTestApp() {
     val selectedOptions = remember { mutableStateListOf<Int?>() }
     val textAnswers = remember { mutableStateListOf<String>() }
     val audioPaths = remember { mutableStateListOf<String?>() }
+    val actionScores = remember { mutableStateListOf<Int?>() } // NEW for ACTION_SEQUENCE answers
 
     // Helper to reset answers when starting fresh
     fun resetTest() {
         selectedOptions.clear()
         textAnswers.clear()
         audioPaths.clear()
+        actionScores.clear()
         questions.forEach { _ ->
             selectedOptions.add(null)
             textAnswers.add("")
             audioPaths.add(null)
+            actionScores.add(null) // initialize action score
         }
         currentIndex = 0
         currentScreen = ScreenState.INTRO_1
@@ -134,9 +137,13 @@ fun DementiaRemoteSelfTestApp() {
                     selectedOption = selectedOptions.getOrNull(currentIndex),
                     textAnswer = textAnswers.getOrNull(currentIndex) ?: "",
                     audioPath = audioPaths.getOrNull(currentIndex),
+                    actionScore = actionScores.getOrNull(currentIndex), // NEW parameter
                     onSelectOption = { selectedOptions[currentIndex] = it },
                     onTextChange = { textAnswers[currentIndex] = it },
                     onAudioRecorded = { audioPaths[currentIndex] = it },
+                    onActionSequenceCompleted = { score -> // NEW callback
+                        actionScores[currentIndex] = score
+                    },
                     onPrev = {
                         if (currentIndex > 0) currentIndex--
                         else currentScreen = ScreenState.INTRO_3
