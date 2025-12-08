@@ -69,8 +69,8 @@ fun ActionSequenceScreen(
         if (canvasWidthPx > 0f && canvasHeightPx > 0f) {
 
             // Initial placement (beautiful layout)
-            pencilOffset = Offset(canvasWidthPx * 0.15f, canvasHeightPx * 0.30f)
-            paperOffset  = Offset(canvasWidthPx * 0.55f, canvasHeightPx * 0.25f)
+            pencilOffset = Offset(canvasWidthPx * 0.02f, canvasHeightPx * 0.06f)
+            paperOffset  = Offset(canvasWidthPx * 0.65f, canvasHeightPx * 0.06f)
 
             // Ensure inside bounds
             pencilOffset = Offset(
@@ -176,11 +176,11 @@ fun ActionSequenceScreen(
                     canvasHeightPx = coords.size.height.toFloat()
 
                     // Slightly larger pencil & paper
-                    pencilW = canvasWidthPx * 0.23f
-                    pencilH = pencilW * 0.52f
+                    pencilW = canvasWidthPx * 0.46f
+                    pencilH = pencilW * .69f
 
                     paperW = canvasWidthPx * 0.36f
-                    paperH = paperW * 1.20f
+                    paperH = paperW * 1.50f
 
                     boxH = canvasHeightPx * 0.28f
                     boxTop = canvasHeightPx - boxH
