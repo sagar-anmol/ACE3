@@ -43,6 +43,9 @@ fun QuestionScreen(
     val context = LocalContext.current
     var tts by remember { mutableStateOf<TextToSpeech?>(null) }
 
+    // Defensive: if question.type is null, default to TEXT (prevents NPE crashes)
+    val qType: QuestionType = question.type ?: QuestionType.TEXT
+
     // Initialize TTS
     DisposableEffect(context) {
         val textToSpeech = TextToSpeech(context) { status ->
@@ -57,14 +60,14 @@ fun QuestionScreen(
         }
     }
 
-    // Speak question text
+    // Speak question text (use qType not question.type)
     LaunchedEffect(question, tts) {
         tts?.let {
             if (!it.isSpeaking) {
                 val textToSpeak = "${question.title}. ${question.description}"
                 it.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null, "QuestionId")
 
-                if (question.type == QuestionType.AUDIO) {
+                if (qType == QuestionType.AUDIO) {
                     it.speak(
                         "Please record your answer after the beep.",
                         TextToSpeech.QUEUE_ADD,
@@ -110,12 +113,14 @@ fun QuestionScreen(
         // ----------------------------------------------
         // SPECIAL CASE: ACTION_SEQUENCE (Canvas screen)
         // ----------------------------------------------
-        if (question.type == QuestionType.ACTION_SEQUENCE) {
+        if (qType == QuestionType.ACTION_SEQUENCE) {
 
             ActionSequenceScreen(
                 question = question,
                 onResult = { score ->
+                    // report to parent (parent will decide how to navigate)
                     onActionSequenceCompleted(score)
+                    // don't call navigation here to avoid navigation-in-composition issues
                 },
                 onBack = onPrev
             )
@@ -157,7 +162,7 @@ fun QuestionScreen(
                 Spacer(modifier = Modifier.height(48.dp))
 
                 // DYNAMIC INPUT UI
-                when (question.type) {
+                when (qType) {
 
                     QuestionType.SINGLE_CHOICE -> {
                         question.options.forEachIndexed { index, option ->
@@ -202,7 +207,18 @@ fun QuestionScreen(
                         )
                     }
 
-                    else -> {}
+                    else -> {
+                        // If question type is unknown, show a fallback text field
+                        OutlinedTextField(
+                            value = textAnswer,
+                            onValueChange = onTextChange,
+                            label = { Text("Answer") },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(150.dp),
+                            textStyle = LocalTextStyle.current.copy(fontSize = 18.sp)
+                        )
+                    }
                 }
             }
         }
@@ -210,7 +226,7 @@ fun QuestionScreen(
         // ----------------------------------------------
         // BOTTOM NEXT / FINISH BUTTON
         // ----------------------------------------------
-        val isAnswered = when (question.type) {
+        val isAnswered = when (qType) {
             QuestionType.SINGLE_CHOICE -> selectedOption != null
             QuestionType.TEXT -> textAnswer.isNotBlank()
             QuestionType.AUDIO -> audioPath != null
