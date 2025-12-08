@@ -141,9 +141,18 @@ fun DementiaRemoteSelfTestApp() {
                     onSelectOption = { selectedOptions[currentIndex] = it },
                     onTextChange = { textAnswers[currentIndex] = it },
                     onAudioRecorded = { audioPaths[currentIndex] = it },
-                    onActionSequenceCompleted = { score -> // NEW callback
+                    onActionSequenceCompleted = { score ->
+                        // Save score
                         actionScores[currentIndex] = score
+
+                        // Move to NEXT question
+                        if (currentIndex < questions.size - 1) {
+                            currentIndex++
+                        } else {
+                            currentScreen = ScreenState.RESULT
+                        }
                     },
+
                     onPrev = {
                         if (currentIndex > 0) currentIndex--
                         else currentScreen = ScreenState.INTRO_3
