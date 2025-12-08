@@ -1,6 +1,12 @@
 package com.example.myapplication.ui.screens
 
 import android.speech.tts.TextToSpeech
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.RectangleShape
+import android.net.Uri
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -31,6 +37,7 @@ fun QuestionScreen(
     totalQuestions: Int,
     selectedOption: Int?,
     textAnswer: String,
+
     audioPath: String?,
     actionScore: Int? = null,
     onSelectOption: (Int) -> Unit,
@@ -45,6 +52,7 @@ fun QuestionScreen(
 
     // Defensive: if question.type is null, default to TEXT (prevents NPE crashes)
     val qType: QuestionType = question.type ?: QuestionType.TEXT
+    var selectedImage by remember { mutableStateOf<Uri?>(null) }
 
     // Initialize TTS
     DisposableEffect(context) {
@@ -59,6 +67,7 @@ fun QuestionScreen(
             textToSpeech.shutdown()
         }
     }
+
 
     // Speak question text (use qType not question.type)
     LaunchedEffect(question, tts) {
@@ -80,6 +89,12 @@ fun QuestionScreen(
     }
 
     val scrollState = rememberScrollState()
+    @Composable
+    fun getDrawableId(name: String, context: android.content.Context = LocalContext.current): Int {
+        if (name.isBlank()) return 0
+        val clean = name.substringBeforeLast(".")
+        return context.resources.getIdentifier(clean, "drawable", context.packageName)
+    }
 
     Column(
         modifier = Modifier
@@ -180,8 +195,46 @@ fun QuestionScreen(
                             }
                         }
                     }
+                    QuestionType.IMAGE_MAP_SELECTION -> {
+                        ImageMapSelectionScreen(
+                            correctRegion = question.correctRegion ?: "",
+                            onResult = { isCorrect ->
+                                onSelectOption(if (isCorrect) 1 else 0) // store score
+                                // DO NOT call onNext()
+                            }
+                        )
+                    }
+
+                    QuestionType.IMAGE_UPLOAD -> {
+                        ImageUploadScreen(
+                            diagramResId = getDrawableId(question.image ?: ""),
+                            onImageSelected = { uri ->
+                                selectedImage = uri   // you store this in your state
+                                onSelectOption(if (uri != null) 1 else 0) // mark as answered
+                            }
+                        )
+                    }
+
 
                     QuestionType.TEXT -> {
+
+                        // Display picture if JSON contains "image"
+                        if (question.image != null) {
+                            Image(
+                                painter = painterResource(
+                                    id = context.resources.getIdentifier(
+                                        question.image.substringBeforeLast("."), // allow "book.png"
+                                        "drawable",
+                                        context.packageName
+                                    )
+                                ),
+                                contentDescription = question.title,
+                                modifier = Modifier
+                                    .padding(vertical = 12.dp)
+                                    .size(180.dp)
+                            )
+                        }
+
                         OutlinedTextField(
                             value = textAnswer,
                             onValueChange = onTextChange,
@@ -192,6 +245,7 @@ fun QuestionScreen(
                             textStyle = LocalTextStyle.current.copy(fontSize = 18.sp)
                         )
                     }
+
 
                     QuestionType.AUDIO -> {
                         AudioRecorderView(
@@ -231,6 +285,9 @@ fun QuestionScreen(
             QuestionType.TEXT -> textAnswer.isNotBlank()
             QuestionType.AUDIO -> audioPath != null
             QuestionType.ACTION_SEQUENCE -> actionScore != null
+            QuestionType.IMAGE_MAP_SELECTION -> selectedOption != null
+            QuestionType.IMAGE_UPLOAD -> selectedImage != null
+
         }
 
         BigButton(
@@ -239,4 +296,5 @@ fun QuestionScreen(
             enabled = isAnswered
         )
     }
+
 }
