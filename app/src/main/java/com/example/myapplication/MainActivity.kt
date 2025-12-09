@@ -169,6 +169,7 @@ fun DementiaRemoteSelfTestApp() {
                 questions = questions,
                 selectedOptions = selectedOptions,
                 textAnswers = textAnswers,
+                actionScores = actionScores,
                 onRestart = { resetTest() }
             )
         }
