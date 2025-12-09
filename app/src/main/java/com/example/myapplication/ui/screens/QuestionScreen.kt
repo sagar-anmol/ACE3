@@ -9,6 +9,7 @@ import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -184,23 +185,37 @@ fun QuestionScreen(
                     // ---------------- TEXT INPUT ----------------
                     QuestionType.TEXT -> {
 
-                        // Show ref image (Book, Spoon, etc.)
-                        getDrawableId(question.image)?.let { img ->
-                            Image(
-                                painterResource(img),
-                                contentDescription = question.title,
-                                modifier = Modifier.size(180.dp).padding(8.dp)
+                        // ⬇️ SHOW IMAGE IF QUESTION HAS ONE
+                        question.image?.let { img ->
+                            val resId = context.resources.getIdentifier(
+                                img.substringBefore("."), "drawable", context.packageName
                             )
+
+                            if (resId != 0) {
+                                Image(
+                                    painter = painterResource(id = resId),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(260.dp)
+                                        .padding(bottom = 16.dp)
+                                )
+                            }
                         }
 
+                        // ⬇️ TEXT ANSWER INPUT
                         OutlinedTextField(
                             value = textAnswer,
                             onValueChange = onTextChange,
-                            modifier = Modifier.fillMaxWidth().height(150.dp),
                             label = { Text("Type your answer here…") },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(150.dp),
+                            shape = RoundedCornerShape(16.dp),
                             textStyle = LocalTextStyle.current.copy(fontSize = 18.sp)
                         )
                     }
+
 
                     // ---------------- AUDIO ----------------
                     QuestionType.AUDIO -> {
