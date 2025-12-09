@@ -52,7 +52,7 @@ fun QuestionScreen(
 
     // Defensive: if question.type is null, default to TEXT (prevents NPE crashes)
     val qType: QuestionType = question.type ?: QuestionType.TEXT
-    var selectedImage by remember { mutableStateOf<Uri?>(null) }
+    var selectedImage by remember(question.id) { mutableStateOf<Uri?>(null) }
 
     // Initialize TTS
     DisposableEffect(context) {
@@ -205,15 +205,18 @@ fun QuestionScreen(
                         )
                     }
 
+
                     QuestionType.IMAGE_UPLOAD -> {
                         ImageUploadScreen(
                             diagramResId = getDrawableId(question.image ?: ""),
+                            selectedImage = selectedImage,
                             onImageSelected = { uri ->
-                                selectedImage = uri   // you store this in your state
-                                onSelectOption(if (uri != null) 1 else 0) // mark as answered
+                                selectedImage = uri
+                                onSelectOption(if (uri != null) 1 else 0)
                             }
                         )
                     }
+
 
 
                     QuestionType.TEXT -> {

@@ -2,80 +2,57 @@ package com.example.myapplication.ui.screens
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.myapplication.R
 
 @Composable
 fun ImageUploadScreen(
     diagramResId: Int,
+    selectedImage: Uri?,
     onImageSelected: (Uri?) -> Unit
 ) {
-    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri ->
-        selectedImageUri = uri
+    val launcher = rememberLauncherForActivityResult(GetContent()) { uri ->
         onImageSelected(uri)
     }
 
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
 
-        // Show diagram to copy
         Image(
-            painter = painterResource(id = diagramResId),
-            contentDescription = "Diagram",
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .padding(16.dp)
+            painter = painterResource(diagramResId),
+            contentDescription = null,
+            modifier = Modifier.size(300.dp),
+            contentScale = ContentScale.Fit
         )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        Button(
-            onClick = { launcher.launch("image/*") },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary
-            )
-        ) {
-            Text("Upload your drawing")
-        }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Show preview if image selected
-        selectedImageUri?.let { uri ->
+        Button(
+            onClick = { launcher.launch("image/*") },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
+        ) {
+            Text("Upload your drawing", color = Color.White)
+        }
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        selectedImage?.let {
             Image(
-                painter = rememberAsyncImagePainter(uri),
-                contentDescription = "Preview",
-                modifier = Modifier
-                    .fillMaxWidth(0.7f)
-                    .height(250.dp)
+                painter = rememberAsyncImagePainter(it),
+                contentDescription = null,
+                modifier = Modifier.size(200.dp),
+                contentScale = ContentScale.Fit
             )
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            TextButton(onClick = {
-                selectedImageUri = null
-                onImageSelected(null)
-            }) {
-                Text("Remove image")
-            }
         }
     }
 }

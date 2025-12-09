@@ -260,7 +260,8 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Book"]
+    "correctTextAnswers": ["Book"],
+    "image": "book.png"
   },
   {
     "id": 28,
@@ -269,7 +270,8 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Spoon"]
+    "correctTextAnswers": ["Spoon"],
+    "image": "spoon.png"
   },
   {
     "id": 29,
@@ -278,7 +280,8 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Goat"]
+    "correctTextAnswers": ["Goat"],
+    "image": "goat.png"
   },
   {
     "id": 30,
@@ -287,7 +290,8 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Candle"]
+    "correctTextAnswers": ["Candle"],
+    "image": "candle.png"
   },
   {
     "id": 31,
@@ -296,7 +300,8 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Flag"]
+    "correctTextAnswers": ["Flag"],
+    "image": "flag.png"
   },
   {
     "id": 32,
@@ -305,7 +310,8 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Camel"]
+    "correctTextAnswers": ["Camel"],
+    "image": "camel.png"
   },
   {
     "id": 33,
@@ -314,7 +320,8 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Sickle"]
+    "correctTextAnswers": ["Sickle"],
+    "image": "sickle.png"
   },
   {
     "id": 34,
@@ -323,7 +330,8 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Giraffe"]
+    "correctTextAnswers": ["Giraffe"],
+    "image": "giraffe.png"
   },
   {
     "id": 35,
@@ -332,7 +340,8 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Drum"]
+    "correctTextAnswers": ["Drum"],
+    "image": "drum.png"
   },
   {
     "id": 36,
@@ -341,7 +350,8 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Umbrella"]
+    "correctTextAnswers": ["Umbrella"],
+    "image": "umbrella.png"
   },
   {
     "id": 37,
@@ -350,7 +360,8 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Pig"]
+    "correctTextAnswers": ["Pig"],
+    "image": "pig.png"
   },
   {
     "id": 38,
@@ -359,43 +370,54 @@
     "type": "text",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Crocodile"]
+    "correctTextAnswers": ["Crocodile"],
+    "image": "crocodile.png"
   },
   {
     "id": 39,
     "title": "point out to the one which is used in the rain",
     "description": "",
-    "type": "text",
+    "type": "IMAGE_MAP_SELECTION",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Umbrella"]
+    "correctTextAnswers": ["Umbrella"],
+    "correctRegion": "umbrella"
+
+
   },
   {
     "id": 40,
     "title": "point out to the one which emits light",
     "description": "",
-    "type": "text",
+    "type": "IMAGE_MAP_SELECTION",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Candle"]
+    "correctTextAnswers": ["Candle"],
+    "correctRegion": "candle"
+
+
   },
   {
     "id": 41,
     "title": "point out to the one which is associated with farming",
     "description": "",
-    "type": "text",
+    "type": "IMAGE_MAP_SELECTION",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Sickle"]
+    "correctTextAnswers": ["Sickle"],
+    "correctRegion": "sickle"
+
   },
   {
     "id": 42,
     "title": "point out to the one which found in desert",
     "description": "",
-    "type": "text",
+    "type": "IMAGE_MAP_SELECTION",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Camel"]
+    "correctTextAnswers": ["Camel"],
+    "correctRegion": "camel"
+
   },
   {
     "id": 43,
@@ -410,7 +432,9 @@
     "id": 44,
     "title": "Copy the diagram",
     "description": "",
-    "type": "image",
+    "type": "IMAGE_UPLOAD",
+    "image": "infinity.png",
+
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -419,7 +443,9 @@
     "id": 45,
     "title": "Copy the diagram",
     "description": "",
-    "type": "image",
+    "type": "IMAGE_UPLOAD",
+    "image": "cube.png",
+
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -428,7 +454,8 @@
     "id": 46,
     "title": "Draw a clock face with numbers and the hands at ten past five",
     "description": "",
-    "type": "image",
+    "type": "IMAGE_UPLOAD",
+
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -437,7 +464,8 @@
     "id": 47,
     "title": "Count the dots in the image without pointing to them",
     "description": "Don't touch or point the dots on the screen",
-    "type": "AUDIO",
+    "type": "IMAGE_TEXT",
+    "image": "dots1.png",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -446,7 +474,8 @@
     "id": 48,
     "title": "Count the dots in the image without pointing to them",
     "description": "Don't touch or point the dots on the screen",
-    "type": "AUDIO",
+    "type": "IMAGE_TEXT",
+    "image": "dots2.png",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -455,7 +484,8 @@
     "id": 49,
     "title": "Count the dots in the image without pointing to them",
     "description": "Don't touch or point the dots on the screen",
-    "type": "AUDIO",
+    "type": "IMAGE_TEXT",
+    "image": "dots3.png",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -464,7 +494,8 @@
     "id": 50,
     "title": "Count the dots in the image without pointing to them",
     "description": "Don't touch or point the dots on the screen",
-    "type": "AUDIO",
+    "type": "IMAGE_TEXT",
+    "image": "dots4.png",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []

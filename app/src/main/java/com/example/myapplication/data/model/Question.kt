@@ -2,7 +2,7 @@ package com.example.myapplication.data.model
 
 // Add ACTION_SEQUENCE here
 enum class QuestionType {
-    SINGLE_CHOICE, TEXT, AUDIO, ACTION_SEQUENCE
+    SINGLE_CHOICE, TEXT, AUDIO, ACTION_SEQUENCE,IMAGE_MAP_SELECTION,IMAGE_UPLOAD
 }
 
 // New model for action steps used by ACTION_SEQUENCE questions
@@ -19,7 +19,8 @@ data class Question(
     val options: List<String> = emptyList(),
     val correctOptionIndex: Int? = null,
     val correctTextAnswers: List<String> = emptyList(),
-
+    val correctRegion: String? = null,
+    val image: String? = null,
     // Optional: steps used only for ACTION_SEQUENCE questions
     val steps: List<ActionStep>? = null
 )
