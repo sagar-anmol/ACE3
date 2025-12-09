@@ -4,7 +4,6 @@ import android.speech.tts.TextToSpeech
 import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.graphics.RectangleShape
 import android.net.Uri
 
 import androidx.compose.foundation.background
@@ -50,50 +49,33 @@ fun QuestionScreen(
     val context = LocalContext.current
     var tts by remember { mutableStateOf<TextToSpeech?>(null) }
 
-    // Defensive: if question.type is null, default to TEXT (prevents NPE crashes)
+    // Fix crash: If null → default to TEXT
     val qType: QuestionType = question.type ?: QuestionType.TEXT
+
+    // IMPORTANT: Reset image per-question to avoid “previous upload showing”
     var selectedImage by remember(question.id) { mutableStateOf<Uri?>(null) }
 
-    // Initialize TTS
+    // ---- TTS ----
     DisposableEffect(context) {
-        val textToSpeech = TextToSpeech(context) { status ->
-            if (status == TextToSpeech.SUCCESS) {
-                tts?.language = Locale.US
-            }
+        val t = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) tts?.language = Locale.US
         }
-        tts = textToSpeech
-        onDispose {
-            textToSpeech.stop()
-            textToSpeech.shutdown()
-        }
+        tts = t
+        onDispose { t.stop(); t.shutdown() }
     }
 
-
-    // Speak question text (use qType not question.type)
-    LaunchedEffect(question, tts) {
-        tts?.let {
-            if (!it.isSpeaking) {
-                val textToSpeak = "${question.title}. ${question.description}"
-                it.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null, "QuestionId")
-
-                if (qType == QuestionType.AUDIO) {
-                    it.speak(
-                        "Please record your answer after the beep.",
-                        TextToSpeech.QUEUE_ADD,
-                        null,
-                        "Prompt"
-                    )
-                }
-            }
-        }
+    LaunchedEffect(question.id) {
+        tts?.speak(question.title, TextToSpeech.QUEUE_FLUSH, null, "Q")
     }
 
     val scrollState = rememberScrollState()
-    @Composable
-    fun getDrawableId(name: String, context: android.content.Context = LocalContext.current): Int {
-        if (name.isBlank()) return 0
-        val clean = name.substringBeforeLast(".")
-        return context.resources.getIdentifier(clean, "drawable", context.packageName)
+
+    // Utility: Safe drawable loader
+    fun getDrawableId(image: String?): Int? {
+        if (image.isNullOrBlank()) return null
+        val clean = image.substringBeforeLast(".")
+        val id = context.resources.getIdentifier(clean, "drawable", context.packageName)
+        return if (id != 0) id else null
     }
 
     Column(
@@ -103,7 +85,7 @@ fun QuestionScreen(
             .padding(16.dp)
     ) {
 
-        // TOP PROGRESS BAR
+        // ---------- TOP PROGRESS ----------
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -114,101 +96,83 @@ fun QuestionScreen(
                 progress = (questionIndex + 1) / totalQuestions.toFloat(),
                 modifier = Modifier.weight(1f)
             )
-
-            Spacer(modifier = Modifier.width(16.dp))
-
+            Spacer(Modifier.width(16.dp))
             Text(
-                text = "${questionIndex + 1} / $totalQuestions",
+                "${questionIndex + 1} / $totalQuestions",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
         }
 
-        // ----------------------------------------------
-        // SPECIAL CASE: ACTION_SEQUENCE (Canvas screen)
-        // ----------------------------------------------
+        // ---------- ACTION SEQUENCE ----------
         if (qType == QuestionType.ACTION_SEQUENCE) {
-
             ActionSequenceScreen(
                 question = question,
-                onResult = { score ->
-                    // report to parent (parent will decide how to navigate)
-                    onActionSequenceCompleted(score)
-                    // don't call navigation here to avoid navigation-in-composition issues
-                },
+                onResult = { score -> onActionSequenceCompleted(score) },
                 onBack = onPrev
             )
-
         } else {
-
-            // ----------------------------------------------
-            // NORMAL QUESTIONS (AUDIO, TEXT, SINGLE_CHOICE)
-            // ----------------------------------------------
 
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .verticalScroll(scrollState),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                // TITLE
+                // ----- TITLE -----
                 Text(
-                    text = question.title,
+                    question.title,
                     style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
 
-                // DESCRIPTION
                 if (question.description.isNotBlank()) {
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(Modifier.height(8.dp))
                     Text(
-                        text = question.description,
+                        question.description,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.secondary,
                         textAlign = TextAlign.Center
                     )
                 }
 
-                Spacer(modifier = Modifier.height(48.dp))
+                Spacer(Modifier.height(40.dp))
 
-                // DYNAMIC INPUT UI
+                // ---------- MAIN LOGIC ----------
                 when (qType) {
 
+                    // ---------------- SINGLE CHOICE ----------------
                     QuestionType.SINGLE_CHOICE -> {
-                        question.options.forEachIndexed { index, option ->
-                            val isSelected = selectedOption == index
-
+                        question.options.forEachIndexed { idx, opt ->
                             OutlinedButton(
-                                onClick = { onSelectOption(index) },
+                                onClick = { onSelectOption(idx) },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(vertical = 6.dp)
-                                    .height(60.dp),
-                                border = ButtonDefaults.outlinedButtonBorder
-                            ) {
-                                Text(option)
-                            }
+                                    .padding(6.dp)
+                                    .height(60.dp)
+                            ) { Text(opt) }
                         }
                     }
+
+                    // ---------------- IMAGE MAP ----------------
                     QuestionType.IMAGE_MAP_SELECTION -> {
                         ImageMapSelectionScreen(
                             correctRegion = question.correctRegion ?: "",
-                            onResult = { isCorrect ->
-                                onSelectOption(if (isCorrect) 1 else 0) // store score
-                                // DO NOT call onNext()
+                            onResult = { correct ->
+                                onSelectOption(if (correct) 1 else 0)
                             }
                         )
                     }
 
-
+                    // ---------------- IMAGE UPLOAD ----------------
                     QuestionType.IMAGE_UPLOAD -> {
+                        val referenceId = getDrawableId(question.image)
+
                         ImageUploadScreen(
-                            diagramResId = getDrawableId(question.image ?: ""),
+                            diagramResId = referenceId,
                             selectedImage = selectedImage,
                             onImageSelected = { uri ->
                                 selectedImage = uri
@@ -217,72 +181,44 @@ fun QuestionScreen(
                         )
                     }
 
-
-
+                    // ---------------- TEXT INPUT ----------------
                     QuestionType.TEXT -> {
 
-                        // Display picture if JSON contains "image"
-                        if (question.image != null) {
+                        // Show ref image (Book, Spoon, etc.)
+                        getDrawableId(question.image)?.let { img ->
                             Image(
-                                painter = painterResource(
-                                    id = context.resources.getIdentifier(
-                                        question.image.substringBeforeLast("."), // allow "book.png"
-                                        "drawable",
-                                        context.packageName
-                                    )
-                                ),
+                                painterResource(img),
                                 contentDescription = question.title,
-                                modifier = Modifier
-                                    .padding(vertical = 12.dp)
-                                    .size(180.dp)
+                                modifier = Modifier.size(180.dp).padding(8.dp)
                             )
                         }
 
                         OutlinedTextField(
                             value = textAnswer,
                             onValueChange = onTextChange,
-                            label = { Text("Type your answer here...") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(150.dp),
+                            modifier = Modifier.fillMaxWidth().height(150.dp),
+                            label = { Text("Type your answer here…") },
                             textStyle = LocalTextStyle.current.copy(fontSize = 18.sp)
                         )
                     }
 
-
+                    // ---------------- AUDIO ----------------
                     QuestionType.AUDIO -> {
                         AudioRecorderView(
                             questionId = question.id,
                             existingPath = audioPath,
                             onAudioRecorded = onAudioRecorded
                         )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text(
-                            "Tap to record your answer",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.secondary
-                        )
+                        Spacer(Modifier.height(16.dp))
+                        Text("Tap to record your answer")
                     }
 
-                    else -> {
-                        // If question type is unknown, show a fallback text field
-                        OutlinedTextField(
-                            value = textAnswer,
-                            onValueChange = onTextChange,
-                            label = { Text("Answer") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(150.dp),
-                            textStyle = LocalTextStyle.current.copy(fontSize = 18.sp)
-                        )
-                    }
+                    else -> { /* fallback text */ }
                 }
             }
         }
 
-        // ----------------------------------------------
-        // BOTTOM NEXT / FINISH BUTTON
-        // ----------------------------------------------
+        // ---------- NEXT BUTTON ENABLE STATE ----------
         val isAnswered = when (qType) {
             QuestionType.SINGLE_CHOICE -> selectedOption != null
             QuestionType.TEXT -> textAnswer.isNotBlank()
@@ -290,7 +226,6 @@ fun QuestionScreen(
             QuestionType.ACTION_SEQUENCE -> actionScore != null
             QuestionType.IMAGE_MAP_SELECTION -> selectedOption != null
             QuestionType.IMAGE_UPLOAD -> selectedImage != null
-
         }
 
         BigButton(
@@ -299,5 +234,4 @@ fun QuestionScreen(
             enabled = isAnswered
         )
     }
-
 }
