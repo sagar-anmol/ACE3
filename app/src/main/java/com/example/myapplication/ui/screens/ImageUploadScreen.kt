@@ -18,7 +18,7 @@ import coil.compose.rememberAsyncImagePainter
 
 @Composable
 fun ImageUploadScreen(
-    diagramResId: Int,
+    diagramResId: Int?,
     selectedImage: Uri?,
     onImageSelected: (Uri?) -> Unit
 ) {
@@ -28,13 +28,15 @@ fun ImageUploadScreen(
 
     Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
 
-        if (diagramResId != 0) {
+        if (diagramResId != null && diagramResId != 0) {
             Image(
                 painter = painterResource(id = diagramResId),
                 contentDescription = null,
-                modifier = Modifier.size(250.dp)
+                modifier = Modifier.size(260.dp),
+                contentScale = ContentScale.Fit
             )
         }
+
 
 
         Spacer(modifier = Modifier.height(20.dp))
