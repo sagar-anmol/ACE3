@@ -33,6 +33,7 @@ import java.util.Locale
 @Composable
 fun QuestionScreen(
     userInfo: UserInfo,
+
     question: Question,
     questionIndex: Int,
     totalQuestions: Int,
@@ -45,6 +46,7 @@ fun QuestionScreen(
     onSelectOption: (Int) -> Unit,
     onTextChange: (String) -> Unit,
     onAudioRecorded: (String) -> Unit,
+    onSubmitAudio: (File) -> Unit, // Added this line
     onActionSequenceCompleted: (Int) -> Unit = {},
     onUploadImage: (File) -> Unit,
     onPrev: () -> Unit,
@@ -255,6 +257,12 @@ fun QuestionScreen(
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
+
+                        if (audioPath != null) {
+                            Button(onClick = { onSubmitAudio(File(audioPath)) }) {
+                                Text("Submit Audio")
+                            }
+                        }
 
                         Text(
                             "Tap to record your answer",

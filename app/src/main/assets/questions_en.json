@@ -2,8 +2,10 @@
   {
     "id": 1,
     "title": "what is the Day",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -11,8 +13,10 @@
   {
     "id": 2,
     "title": "what is the Date",
-    "Score": "9", "description": "",
+    "Score": "9",
+    "description": "",
     "type": "AUDIO",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -20,8 +24,10 @@
   {
     "id": 3,
     "title": "what is the Month",
-    "Score": "150", "description": "",
+    "Score": "150",
+    "description": "",
     "type": "AUDIO",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -29,8 +35,10 @@
   {
     "id": 4,
     "title": "what is the Year",
-    "Score": "30", "description": "",
+    "Score": "30",
+    "description": "",
     "type": "AUDIO",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -38,8 +46,10 @@
   {
     "id": 5,
     "title": "what is the Season",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -47,8 +57,10 @@
   {
     "id": 6,
     "title": "Which floor",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -56,8 +68,10 @@
   {
     "id": 7,
     "title": "Which Street",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -65,8 +79,10 @@
   {
     "id": 8,
     "title": "Which City",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -74,8 +90,10 @@
   {
     "id": 9,
     "title": "Which State",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -83,8 +101,10 @@
   {
     "id": 10,
     "title": "Which Country",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -92,36 +112,58 @@
   {
     "id": 11,
     "title": "I'm going to give you three words and I'd like you to repeat them after me: lemon, key and ball.",
-    "Score": "3", "description": "Repeat three words after me",
+    "Score": "3",
+    "description": "Repeat three words after me",
     "type": "AUDIO",
+    "category": "memory",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["lemon,key,ball"],
+    "correctTextAnswers": [
+      "lemon",
+      "key",
+      "ball"
+    ],
     "repeatationAfterAnswering": "Please remember the words, I am going to ask you later"
   },
   {
     "id": 12,
     "title": "Could you take 7 away from 100? I'd like you to keep taking 7 away from each new  number until I tell you to stop.",
-    "Score": "5", "description": "Stop After you get to 65",
+    "Score": "5",
+    "description": "Stop After you get to 65",
     "type": "AUDIO",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["93,86,79,72,65"]
+    "correctTextAnswers": [
+      "93",
+      "86",
+      "79",
+      "72",
+      "65"
+    ]
   },
   {
     "id": 13,
     "title": "Which 3 words did I ask you to repeat and remember",
-    "Score": "3", "description": "",
+    "Score": "3",
+    "description": "",
     "type": "AUDIO",
+    "category": "memory",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["lemon,key,ball"]
+    "correctTextAnswers": [
+      "lemon",
+      "key",
+      "ball"
+    ]
   },
   {
     "id": 14,
     "title": "I'm going to give you a letter of the alphabet and I'd like you to generate as many words as you can beginning with that letter, but not names of people or places. For example, if I give you the letter C, you could give me words like cat, cry, clock and so on. But, you can't give me words like Catherine or Canada.Do you understand? Are you ready? You have one minute. The letter I want you to use is the letter 'p' ",
-    "Score": "7", "description": "Words with letter C",
+    "Score": "7",
+    "description": "Words with letter C",
     "type": "AUDIO",
+    "category": "fluency",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -129,8 +171,10 @@
   {
     "id": 15,
     "title": "Now can you name as many animals as possible. It can begin with any letter.",
-    "Score": "7", "description": "",
+    "Score": "7",
+    "description": "",
     "type": "AUDIO",
+    "category": "fluency",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -138,8 +182,10 @@
   {
     "id": 16,
     "title": "I'm going to give you a name and address and I'd like you to repeat the name and address after me. So you have a chance to learn, we'll be doing that 3 times. I'll ask you the name and address later, The name and address is Sunil Kumar Singh 52, Station Road, Gandhinagar, Allahabad.",
-    "Score": "7", "description": "",
+    "Score": "7",
+    "description": "",
     "type": "AUDIO",
+    "category": "memory",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -147,8 +193,10 @@
   {
     "id": 17,
     "title": "Name the current Chief Minister",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "memory",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -156,8 +204,10 @@
   {
     "id": 18,
     "title": "Name the Prime Minister of india ",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "memory",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -165,8 +215,10 @@
   {
     "id": 19,
     "title": "Name the actor who was hero in the film 'Mera Naam Joker ",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "memory",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -174,8 +226,10 @@
   {
     "id": 20,
     "title": "Name the Father of our Nation",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "memory",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -183,36 +237,49 @@
   {
     "id": 21,
     "title": "Three-step commands (Language)",
-    "Score": "3", "description": "Follow the commands by moving the pencil and paper.",
+    "Score": "3",
+    "description": "Follow the commands by moving the pencil and paper.",
     "type": "ACTION_SEQUENCE",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": [],
     "steps": [
       {
         "command": "Practice: Pick up the pencil and then the paper.",
-        "requiredActions": ["PICK_PENCIL", "PICK_PAPER"]
+        "requiredActions": [
+          "PICK_PENCIL",
+          "PICK_PAPER"
+        ]
       },
       {
         "command": "Place the paper on top of the pencil.",
-        "requiredActions": ["PLACE_PAPER_ON_PENCIL"]
+        "requiredActions": [
+          "PLACE_PAPER_ON_PENCIL"
+        ]
       },
       {
         "command": "Pick up the pencil but not the paper.",
-        "requiredActions": ["PICK_PENCIL_ONLY"]
+        "requiredActions": [
+          "PICK_PENCIL_ONLY"
+        ]
       },
       {
         "command": "Pass me the pencil after touching the paper.",
-        "requiredActions": ["TOUCH_PAPER", "PASS_PENCIL"]
+        "requiredActions": [
+          "TOUCH_PAPER",
+          "PASS_PENCIL"
+        ]
       }
     ]
   },
-
   {
     "id": 22,
     "title": " write two (or more) complete sentences about your last  holiday or weekend or festival. Write in complete sentences and do not use abbreviations",
-    "Score": "2", "description": "",
+    "Score": "2",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -220,221 +287,307 @@
   {
     "id": 23,
     "title": " Repeat words after me: 'caterpillar'; 'eccentricity; 'unintelligible'; 'statistician'",
-    "Score": "2", "description": "",
+    "Score": "2",
+    "description": "",
     "type": "AUDIO",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["caterpillar", "eccentricity", "unintelligible", "statistician"]
+    "correctTextAnswers": [
+      "caterpillar",
+      "eccentricity",
+      "unintelligible",
+      "statistician"
+    ]
   },
   {
     "id": 24,
     "title": " Repeat sentence after me: All that glitters is not gold",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["All that glitters is not gold"]
+    "correctTextAnswers": [
+      "All that glitters is not gold"
+    ]
   },
   {
     "id": 25,
     "title": " Repeat sentence after me:A stitch in time saves nine",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["A stitch in time saves nine"]
+    "correctTextAnswers": [
+      "A stitch in time saves nine"
+    ]
   },
   {
     "id": 26,
     "title": " Repeat sentence after me:A stitch in time saves nine",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["A stitch in time saves nine"]
+    "correctTextAnswers": [
+      "A stitch in time saves nine"
+    ]
   },
   {
     "id": 27,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Book"],
+    "correctTextAnswers": [
+      "Book"
+    ],
     "image": "book.png"
   },
   {
     "id": 28,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Spoon"],
+    "correctTextAnswers": [
+      "Spoon"
+    ],
     "image": "spoon.png"
   },
   {
     "id": 29,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Goat"],
+    "correctTextAnswers": [
+      "Goat"
+    ],
     "image": "goat.png"
   },
   {
     "id": 30,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Candle"],
+    "correctTextAnswers": [
+      "Candle"
+    ],
     "image": "candle.png"
   },
   {
     "id": 31,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Flag"],
+    "correctTextAnswers": [
+      "Flag"
+    ],
     "image": "flag.png"
   },
   {
     "id": 32,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Camel"],
+    "correctTextAnswers": [
+      "Camel"
+    ],
     "image": "camel.png"
   },
   {
     "id": 33,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Sickle"],
+    "correctTextAnswers": [
+      "Sickle"
+    ],
     "image": "sickle.png"
   },
   {
     "id": 34,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Giraffe"],
+    "correctTextAnswers": [
+      "Giraffe"
+    ],
     "image": "giraffe.png"
   },
   {
     "id": 35,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Drum"],
+    "correctTextAnswers": [
+      "Drum"
+    ],
     "image": "drum.png"
   },
   {
     "id": 36,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Umbrella"],
+    "correctTextAnswers": [
+      "Umbrella"
+    ],
     "image": "umbrella.png"
   },
   {
     "id": 37,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Pig"],
+    "correctTextAnswers": [
+      "Pig"
+    ],
     "image": "pig.png"
   },
   {
     "id": 38,
     "title": "Name the picture shown to you",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "text",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Crocodile"],
+    "correctTextAnswers": [
+      "Crocodile"
+    ],
     "image": "crocodile.png"
   },
   {
     "id": 39,
     "title": "point out to the one which is used in the rain",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "IMAGE_MAP_SELECTION",
+    "category": "visuospatial skills",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Umbrella"],
+    "correctTextAnswers": [
+      "Umbrella"
+    ],
     "correctRegion": "umbrella"
-
-
   },
   {
     "id": 40,
     "title": "point out to the one which emits light",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "IMAGE_MAP_SELECTION",
+    "category": "visuospatial skills",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Candle"],
+    "correctTextAnswers": [
+      "Candle"
+    ],
     "correctRegion": "candle"
-
-
   },
   {
     "id": 41,
     "title": "point out to the one which is associated with farming",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "IMAGE_MAP_SELECTION",
+    "category": "visuospatial skills",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Sickle"],
+    "correctTextAnswers": [
+      "Sickle"
+    ],
     "correctRegion": "sickle"
-
   },
   {
     "id": 42,
     "title": "point out to the one which found in desert",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "IMAGE_MAP_SELECTION",
+    "category": "visuospatial skills",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["Camel"],
+    "correctTextAnswers": [
+      "Camel"
+    ],
     "correctRegion": "camel"
-
   },
   {
     "id": 43,
     "title": "Read the following words",
-    "Score": "1", "description": "sew, pint, soot, dough, height",
+    "Score": "1",
+    "description": "sew, pint, soot, dough, height",
     "type": "AUDIO",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["sew", "pint", "soot", "dough", "height"]
+    "correctTextAnswers": [
+      "sew",
+      "pint",
+      "soot",
+      "dough",
+      "height"
+    ]
   },
   {
     "id": 44,
     "title": "Copy the diagram",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "IMAGE_UPLOAD",
     "image": "infinity.png",
-
+    "category": "visuospatial skills",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -442,10 +595,11 @@
   {
     "id": 45,
     "title": "Copy the diagram",
-    "Score": "2", "description": "",
+    "Score": "2",
+    "description": "",
     "type": "IMAGE_UPLOAD",
     "image": "cube.png",
-
+    "category": "visuospatial skills",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -453,9 +607,10 @@
   {
     "id": 46,
     "title": "Draw a clock face with numbers and the hands at ten past five",
-    "Score": "5", "description": "",
+    "Score": "5",
+    "description": "",
     "type": "IMAGE_UPLOAD",
-
+    "category": "visuospatial skills",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -463,9 +618,11 @@
   {
     "id": 47,
     "title": "Count the dots in the image without pointing to them",
-    "Score": "1", "description": "Don't touch or point the dots on the screen",
+    "Score": "1",
+    "description": "Don't touch or point the dots on the screen",
     "type": "TEXT",
     "image": "dots1.png",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -473,9 +630,11 @@
   {
     "id": 48,
     "title": "Count the dots in the image without pointing to them",
-    "Score": "1", "description": "Don't touch or point the dots on the screen",
+    "Score": "1",
+    "description": "Don't touch or point the dots on the screen",
     "type": "TEXT",
     "image": "dots2.png",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -483,9 +642,11 @@
   {
     "id": 49,
     "title": "Count the dots in the image without pointing to them",
-    "Score": "1", "description": "Don't touch or point the dots on the screen",
+    "Score": "1",
+    "description": "Don't touch or point the dots on the screen",
     "type": "TEXT",
     "image": "dots3.png",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -493,9 +654,11 @@
   {
     "id": 50,
     "title": "Count the dots in the image without pointing to them",
-    "Score": "1", "description": "Don't touch or point the dots on the screen",
+    "Score": "1",
+    "description": "Don't touch or point the dots on the screen",
     "type": "TEXT",
     "image": "dots4.png",
+    "category": "attention & orientation",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": []
@@ -503,50 +666,57 @@
   {
     "id": 51,
     "title": "Identify the letter in the image",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
     "image": "k.png",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["K"]
+    "correctTextAnswers": [
+      "K"
+    ]
   },
   {
     "id": 52,
     "title": "Identify the letter in the image",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
     "image": "m.png",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["M"]
+    "correctTextAnswers": [
+      "M"
+    ]
   },
   {
     "id": 53,
     "title": "Identify the letter in the image",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
     "image": "a.png",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["A"]
+    "correctTextAnswers": [
+      "A"
+    ]
   },
   {
     "id": 54,
     "title": "Identify the letter in the image",
-    "Score": "1", "description": "",
+    "Score": "1",
+    "description": "",
     "type": "AUDIO",
     "image": "t.png",
+    "category": "language",
     "options": [],
     "correctOptionIndex": -1,
-    "correctTextAnswers": ["T"]
+    "correctTextAnswers": [
+      "T"
+    ]
   }
-
-
-
-
-
-
-
-
-
 ]

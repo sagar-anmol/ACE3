@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.Manifest
+import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -12,8 +13,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,22 +24,25 @@ import com.example.myapplication.data.model.Question
 import com.example.myapplication.data.model.UserInfo
 import com.example.myapplication.ui.screens.*
 import com.example.myapplication.ui.theme.DementiaAppTheme
+import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.io.File
 
-// --- 1. Network Interface & Data Classes (for server communication) ---
+// --- 1. Network Interfaces & Data Classes ---
+
+// For Drawing Evaluation
 interface EvaluationApiService {
     @Multipart
-    @POST("/api/evaluate/drawing") // Example endpoint for image upload
+    @POST("/api/evaluate/drawing")
     suspend fun submitDrawingForEvaluation(
         @Part("questionId") questionId: RequestBody,
         @Part image: MultipartBody.Part
@@ -53,7 +55,66 @@ interface EvaluationApiService {
 data class SubmissionResponse(val taskId: String, val status: String)
 data class EvaluationResult(val status: String, val score: String?)
 
+// For Audio Evaluation
+interface AudioApiService {
+    @Multipart
+    @POST("api/pipeline")
+    suspend fun submitAudioForEvaluation(
+        @Part("type") type: RequestBody,
+        @Part("extra_param") extraParam: RequestBody,
+        @Part audioFile: MultipartBody.Part
+    ): Response<AudioSubmissionResponse>
 
+    @GET("api/status/{token_id}")
+    suspend fun getAudioEvaluationResult(@Path("token_id") tokenId: String): Response<AudioEvaluationResult>
+}
+
+data class AudioSubmissionResponse(
+    val success: Boolean,
+    @SerializedName("token_id") val tokenId: Int,
+    val status: String
+)
+
+data class AudioEvaluationResult(
+    @SerializedName("token_id") val tokenId: String,
+    val data: AudioResultData?
+)
+
+data class AudioResultData(
+    val status: String,
+    val result: String?,
+    val timestamps: String? // JSON string for word timestamps
+)
+
+
+// --- 2. STORAGE & SCORE HELPER FUNCTIONS (Top Level) ---
+
+fun saveScoreToPreferences(context: Context, questionId: Int, score: Int) {
+    val prefs = context.getSharedPreferences("TestResults", Context.MODE_PRIVATE)
+    val editor = prefs.edit()
+    editor.putInt("q_$questionId", score)
+    editor.apply()
+}
+
+fun calculateFinalScore(context: Context, questions: List<Question>): Int {
+    val prefs = context.getSharedPreferences("TestResults", Context.MODE_PRIVATE)
+    var total = 0
+    for (question in questions) {
+        total += prefs.getInt("q_${question.id}", 0)
+    }
+    return total
+}
+
+fun getQuestionMaxScore(question: Question): Int {
+    // The "score" from the data model is the intended max score for each question.
+    return question.score.coerceAtLeast(0)
+}
+
+fun calculateTotalMaxPossible(questions: List<Question>): Int {
+    return questions.sumOf { getQuestionMaxScore(it) }
+}
+
+// --- 3. Main Activity ---
 class MainActivity : ComponentActivity() {
 
     private val audioPermissionLauncher =
@@ -62,12 +123,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Hide Status Bar and Navigation Bar for immersive mode
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
-        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
 
-        // Request mic permission on start
         audioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
 
         setContent {
@@ -83,156 +143,215 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-enum class ScreenState { INTRO_1, INTRO_2, INTRO_3, TEST, RESULT }
+enum class ScreenState { INTRO_1, INTRO_2, INTRO_3, TEST, RESULT, DETAILED_REPORT }
 
 @Composable
 fun DementiaRemoteSelfTestApp() {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
-    // 1. Setup Repository and State
     val repository = remember { QuestionRepository(context) }
-    var currentLanguage by remember { mutableStateOf("en") } // Toggle this to 'hi' to test Hindi
+    var currentLanguage by remember { mutableStateOf("en") }
     var questions by remember { mutableStateOf<List<Question>>(emptyList()) }
 
-    // --- ADDED: Retrofit Client for network calls ---
-    val apiService = remember {
+    // Retrofit Clients
+    val drawingApiService = remember {
         Retrofit.Builder()
-            // IMPORTANT: REPLACE URL. 10.0.2.2 is for the Android emulator to connect to the host's localhost.
             .baseUrl("http://10.0.2.2:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(EvaluationApiService::class.java)
     }
+    val audioApiService = remember {
+        Retrofit.Builder()
+            .baseUrl("https://9aab173591931.notebooks.jarvislabs.net/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AudioApiService::class.java)
+    }
 
-    // 2. Load Questions from JSON when language changes
     LaunchedEffect(currentLanguage) {
         questions = repository.getQuestions(currentLanguage)
     }
 
-    // 3. User & Navigation State
     var currentScreen by remember { mutableStateOf(ScreenState.INTRO_1) }
     var userInfo by remember { mutableStateOf(UserInfo(age = 0, education = 0)) }
     var currentIndex by remember { mutableIntStateOf(0) }
 
-    // 4. Answer Storage
     val selectedOptions = remember { mutableStateListOf<Int?>() }
     val textAnswers = remember { mutableStateListOf<String>() }
     val audioPaths = remember { mutableStateListOf<String?>() }
     val actionScores = remember { mutableStateListOf<Int?>() }
-    // --- ADDED: State for server-side scoring ---
     val serverScores = remember { mutableStateListOf<String?>() }
-    val pendingTasks = remember { mutableStateMapOf<Int, String>() } // Map<QuestionID, TaskID>
 
-    // Helper to reset all answers and states when starting a new test
+    // Separate pending task maps for clarity
+    val pendingDrawingTasks = remember { mutableStateMapOf<Int, String>() }
+    val pendingAudioTasks = remember { mutableStateMapOf<Int, String>() }
+
+
     fun resetTest() {
+        val prefs = context.getSharedPreferences("TestResults", Context.MODE_PRIVATE)
+        prefs.edit().clear().apply()
+
         selectedOptions.clear()
         textAnswers.clear()
         audioPaths.clear()
         actionScores.clear()
-        serverScores.clear() // ADDED
-        pendingTasks.clear() // ADDED
+        serverScores.clear()
+        pendingDrawingTasks.clear()
+        pendingAudioTasks.clear()
+
         questions.forEach { _ ->
             selectedOptions.add(null)
             textAnswers.add("")
             audioPaths.add(null)
             actionScores.add(null)
-            serverScores.add(null) // ADDED: Initialize server score list
+            serverScores.add(null)
         }
         currentIndex = 0
         currentScreen = ScreenState.INTRO_1
     }
 
-    // Initialize or reset lists when the questions are loaded
     LaunchedEffect(questions) {
         if (questions.isNotEmpty()) resetTest()
     }
 
-    // --- ADDED: The "submit and poll" logic as a self-contained function ---
-    fun submitAndPoll(question: Question, imageFile: File) {
-        val questionId = question.id
-        // Prevent re-submission if already pending
-        if (pendingTasks.containsKey(questionId)) return
+    fun showScoreToast(currentMarks: Int) {
+        val totalObtained = calculateFinalScore(context, questions)
+        val maxPossible = calculateTotalMaxPossible(questions)
+        Toast.makeText(
+            context,
+            "Marks: $currentMarks | Total: $totalObtained / $maxPossible",
+            Toast.LENGTH_LONG
+        ).show()
+    }
 
-        coroutineScope.launch(Dispatchers.IO) { // Use IO dispatcher for network calls
+    fun submitDrawingAndPoll(question: Question, imageFile: File) {
+        val questionId = question.id
+        if (pendingDrawingTasks.containsKey(questionId)) return
+
+        coroutineScope.launch(Dispatchers.IO) {
             try {
-                // Prepare file for upload
                 val requestFile = imageFile.asRequestBody("image/png".toMediaTypeOrNull())
                 val imagePart = MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
                 val idPart = questionId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
-                val submissionResponse = apiService.submitDrawingForEvaluation(idPart, imagePart)
+                val submissionResponse = drawingApiService.submitDrawingForEvaluation(idPart, imagePart)
 
                 if (submissionResponse.isSuccessful && submissionResponse.body() != null) {
                     val taskId = submissionResponse.body()!!.taskId
-                    // Switch back to Main thread to safely update UI state
-                    withContext(Dispatchers.Main) {
-                        pendingTasks[questionId] = taskId
-                    }
+                    withContext(Dispatchers.Main) { pendingDrawingTasks[questionId] = taskId }
 
-                    // Start polling in the background
-                    while (pendingTasks.containsKey(questionId)) {
-                        delay(15000) // Poll every 15 seconds (adjust for production)
-
-                        val resultResponse = apiService.getEvaluationResult(taskId)
+                    while (pendingDrawingTasks.containsKey(questionId)) {
+                        delay(15000)
+                        val resultResponse = drawingApiService.getEvaluationResult(taskId)
                         if (resultResponse.isSuccessful && resultResponse.body()?.status == "COMPLETE") {
-                            val finalScore = resultResponse.body()?.score ?: "0"
+                            val finalScoreString = resultResponse.body()?.score ?: "0"
                             withContext(Dispatchers.Main) {
-                                // Find the index of the question to update its score
                                 val index = questions.indexOfFirst { it.id == questionId }
                                 if (index != -1) {
-                                    serverScores[index] = finalScore
+                                    serverScores[index] = finalScoreString
+                                    val scoreInt = finalScoreString.toDoubleOrNull()?.toInt() ?: 0
+                                    saveScoreToPreferences(context, questionId, scoreInt)
+                                    showScoreToast(scoreInt)
                                 }
-                                pendingTasks.remove(questionId) // Stop polling for this task
+                                pendingDrawingTasks.remove(questionId)
                             }
-                            break // Exit the while loop
+                            break
                         }
                     }
                 }
             } catch (e: Exception) {
-                // Handle exceptions (e.g., network error, server down)
                 e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    pendingTasks.remove(questionId) // Stop polling on error
-                }
+                withContext(Dispatchers.Main) { pendingDrawingTasks.remove(questionId) }
             }
         }
     }
 
-    // 5. Navigation Logic
+    fun submitAudioAndPoll(question: Question, audioFile: File) {
+        val questionId = question.id
+        if (pendingAudioTasks.containsKey(questionId)) return
+
+        coroutineScope.launch(Dispatchers.IO) {
+            try {
+                val typePart = "audio".toRequestBody("text/plain".toMediaTypeOrNull())
+                val extraParamPart = "test_v1".toRequestBody("text/plain".toMediaTypeOrNull())
+                val requestFile = audioFile.asRequestBody("audio/mp3".toMediaTypeOrNull())
+                val audioFilePart =
+                    MultipartBody.Part.createFormData("audio_file", audioFile.name, requestFile)
+
+                val subResponse =
+                    audioApiService.submitAudioForEvaluation(typePart, extraParamPart, audioFilePart)
+
+                if (subResponse.isSuccessful && subResponse.body()?.success == true) {
+                    val taskId = subResponse.body()!!.tokenId.toString()
+                    withContext(Dispatchers.Main) { pendingAudioTasks[questionId] = taskId }
+
+                    while (pendingAudioTasks.containsKey(questionId)) {
+                        delay(20000) // Poll every 20 seconds
+                        val resultResponse = audioApiService.getAudioEvaluationResult(taskId)
+                        val resultData = resultResponse.body()?.data
+                        if (resultResponse.isSuccessful && resultData?.status == "completed") {
+                            val transcribedText = resultData.result?.trim()?.lowercase()
+                            val correctAnswers = question.correctTextAnswers ?: emptyList()
+                            val maxScore = getQuestionMaxScore(question)
+
+                            var score = 0
+                            if (!transcribedText.isNullOrEmpty() && correctAnswers.isNotEmpty()) {
+                                // If there is one answer and it contains spaces, treat it as a sentence
+                                if (correctAnswers.size == 1 && correctAnswers.first().contains(" ")) {
+                                    val correctAnswerSentence = correctAnswers.first().lowercase()
+                                    if (transcribedText == correctAnswerSentence) {
+                                        score = maxScore
+                                    }
+                                } else { // Otherwise, treat it as a list of words
+                                    val transcribedWords = transcribedText.split(" ").map { it.trim() }
+                                    val correctWords = correctAnswers.map { it.lowercase() }
+                                    score = transcribedWords.count { it in correctWords }
+                                }
+                            }
+
+                            val finalScore = minOf(score, maxScore)
+
+                            withContext(Dispatchers.Main) {
+                                val index = questions.indexOfFirst { it.id == questionId }
+                                if (index != -1) {
+                                    serverScores[index] = "$finalScore / $maxScore"
+                                    saveScoreToPreferences(context, questionId, finalScore)
+                                    showScoreToast(finalScore)
+                                }
+                                pendingAudioTasks.remove(questionId)
+                            }
+                            break
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) { pendingAudioTasks.remove(questionId) }
+            }
+        }
+    }
+
+
     if (questions.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
     } else {
         when (currentScreen) {
-            ScreenState.INTRO_1 -> IntroScreen1(onNext = { 
-                currentScreen = ScreenState.INTRO_2
-                Toast.makeText(context, "Intro 2", Toast.LENGTH_SHORT).show()
-            })
-
+            ScreenState.INTRO_1 -> IntroScreen1(onNext = { currentScreen = ScreenState.INTRO_2 })
             ScreenState.INTRO_2 -> IntroScreen2(
-                onBack = { 
-                    currentScreen = ScreenState.INTRO_1
-                    Toast.makeText(context, "Intro 1", Toast.LENGTH_SHORT).show()
-                },
-                onNext = { 
-                    currentScreen = ScreenState.INTRO_3
-                    Toast.makeText(context, "Intro 3", Toast.LENGTH_SHORT).show()
-                }
+                onBack = { currentScreen = ScreenState.INTRO_1 },
+                onNext = { currentScreen = ScreenState.INTRO_3 }
             )
-
             ScreenState.INTRO_3 -> IntroScreen3(
                 userInfo = userInfo,
                 onUserInfoChange = { userInfo = it },
-                onBack = { 
-                    currentScreen = ScreenState.INTRO_2
-                    Toast.makeText(context, "Intro 2", Toast.LENGTH_SHORT).show()
-                },
+                onBack = { currentScreen = ScreenState.INTRO_2 },
                 onStartTest = {
                     currentIndex = 0
                     currentScreen = ScreenState.TEST
-                    Toast.makeText(context, "Test Screen", Toast.LENGTH_SHORT).show()
                 }
             )
 
@@ -248,61 +367,64 @@ fun DementiaRemoteSelfTestApp() {
                     textAnswer = textAnswers.getOrNull(currentIndex) ?: "",
                     audioPath = audioPaths.getOrNull(currentIndex),
                     actionScore = actionScores.getOrNull(currentIndex),
-                    // --- MODIFIED/ADDED parameters for server scoring ---
                     serverScore = serverScores.getOrNull(currentIndex),
-                    isPending = pendingTasks.containsKey(question.id),
-                    onUploadImage = { imageFile ->
-                        // This gets called from QuestionScreen when the user submits a drawing
-                        submitAndPoll(question, imageFile)
+                    isPending = pendingDrawingTasks.containsKey(question.id) || pendingAudioTasks.containsKey(question.id),
+                    onUploadImage = { imageFile -> submitDrawingAndPoll(question, imageFile) },
+                    onSubmitAudio = { audioFile -> submitAudioAndPoll(question, audioFile) },
+
+                    onSelectOption = { selectedIndex ->
+                        selectedOptions[currentIndex] = selectedIndex
+                        val maxPoints = getQuestionMaxScore(question)
+                        val points = if (selectedIndex == question.correctOptionIndex) maxPoints else 0
+                        saveScoreToPreferences(context, question.id, points)
+                        showScoreToast(points)
                     },
-                    // ---
-                    onSelectOption = { selectedOptions[currentIndex] = it },
+
                     onTextChange = { textAnswers[currentIndex] = it },
                     onAudioRecorded = { audioPaths[currentIndex] = it },
+
                     onActionSequenceCompleted = { score ->
                         actionScores[currentIndex] = score
+                        saveScoreToPreferences(context, question.id, score)
+                        showScoreToast(score)
+
                         if (currentIndex < questions.size - 1) {
                             currentIndex++
-                            Toast.makeText(context, "Next Question", Toast.LENGTH_SHORT).show()
                         } else {
-                            currentScreen = ScreenState.RESULT
-                            Toast.makeText(context, "Result Screen", Toast.LENGTH_SHORT).show()
+                            currentScreen = ScreenState.DETAILED_REPORT
                         }
                     },
                     onPrev = {
-                        if (currentIndex > 0) {
-                            currentIndex--
-                            Toast.makeText(context, "Previous Question", Toast.LENGTH_SHORT).show()
-                        } else {
-                            currentScreen = ScreenState.INTRO_3
-                            Toast.makeText(context, "Intro 3", Toast.LENGTH_SHORT).show()
-                        }
+                        if (currentIndex > 0) currentIndex--
+                        else currentScreen = ScreenState.INTRO_3
                     },
                     onNext = {
-                        if (currentIndex < questions.size - 1) {
-                            currentIndex++
-                            Toast.makeText(context, "Next Question", Toast.LENGTH_SHORT).show()
-                        } else {
-                            currentScreen = ScreenState.RESULT
-                            Toast.makeText(context, "Result Screen", Toast.LENGTH_SHORT).show()
-                        }
+                        if (currentIndex < questions.size - 1) currentIndex++
+                        else currentScreen = ScreenState.RESULT
                     }
                 )
             }
 
-            ScreenState.RESULT -> ResultScreen(
-                userInfo = userInfo,
-                questions = questions,
-                selectedOptions = selectedOptions,
-                textAnswers = textAnswers,
-                actionScores = actionScores,
-                // --- ADDED parameter for showing final server scores ---
-                serverScores = serverScores,
-                onRestart = { 
-                    resetTest()
-                    Toast.makeText(context, "Restarting Test", Toast.LENGTH_SHORT).show()
-                }
-            )
+            ScreenState.RESULT -> {
+                ResultScreen(
+                    userInfo = userInfo,
+                    questions = questions,
+                    selectedOptions = selectedOptions,
+                    textAnswers = textAnswers,
+                    actionScores = actionScores,
+                    serverScores = serverScores,
+                    onRestart = { resetTest() },
+                    onViewDetailedReport = { currentScreen = ScreenState.DETAILED_REPORT }
+                )
+            }
+
+            ScreenState.DETAILED_REPORT -> {
+                DetailedReportScreen(
+                    userInfo = userInfo,
+                    questions = questions,
+                    onRestart = { resetTest() }
+                )
+            }
         }
     }
 }

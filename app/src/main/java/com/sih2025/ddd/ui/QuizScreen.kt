@@ -24,11 +24,9 @@ import java.io.File
 import java.io.IOException
 
 // --- 1. Network Interface & Data Classes ---
-// This part defines the API calls for Retrofit.
-
 interface EvaluationApiService {
     @Multipart
-    @POST("/api/evaluate/drawing") // Example endpoint
+    @POST("/api/evaluate/drawing")
     suspend fun submitDrawingForEvaluation(
         @Part("questionId") questionId: RequestBody,
         @Part image: MultipartBody.Part
@@ -48,34 +46,28 @@ fun QuizScreen() {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
-    // State to hold all questions as a mutable list of JSONObjects
     var questions by remember { mutableStateOf<List<JSONObject>>(emptyList()) }
-    // State to track the current question index
     var currentQuestionIndex by remember { mutableStateOf(0) }
-
-    // State to track pending server tasks: Map<taskId, questionId>
     val pendingTasks = remember { mutableStateMapOf<String, Int>() }
-    // State to hold feedback messages for the user
     var feedbackMessage by remember { mutableStateOf("") }
 
-    // --- Retrofit Client (instantiated once) ---
+    val maxScore = remember(questions) {
+        questions.sumOf { it.optString("Score", "0").toIntOrNull() ?: 0 }
+    }
+
     val apiService = remember {
         Retrofit.Builder()
-            // IMPORTANT: REPLACE "http://10.0.2.2:8080" with your actual server URL.
-            // 10.0.2.2 is the special address for Android emulators to connect to the host machine's localhost.
             .baseUrl("http://10.0.2.2:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(EvaluationApiService::class.java)
     }
 
-    // --- Load questions from JSON when the screen first launches ---
     LaunchedEffect(key1 = true) {
         questions = loadQuestions(context)
         feedbackMessage = "Questions loaded. Total: ${questions.size}"
     }
 
-    // --- UI Layout ---
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -88,42 +80,38 @@ fun QuizScreen() {
             val questionId = currentQuestion.getInt("id")
             val questionTitle = currentQuestion.getString("title")
             val questionType = currentQuestion.getString("type")
-            val score = currentQuestion.getString("Score")
+            val userScore = currentQuestion.optString("userScore", "")
 
             Text(text = "Question ${questionId}: $questionTitle", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(20.dp))
             Text(text = "Type: $questionType")
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Check if this task is pending
             val isPending = pendingTasks.containsValue(questionId)
             val currentScoreText = when {
                 isPending -> "PENDING"
-                score.isNotEmpty() -> score
+                userScore.isNotEmpty() -> userScore
                 else -> "Unanswered"
             }
 
             Text(text = "Score: $currentScoreText", style = MaterialTheme.typography.headlineSmall)
             Spacer(modifier = Modifier.height(30.dp))
 
-            // --- Buttons to Simulate Answering ---
             Row {
-                // Button to simulate a simple, locally-scored answer
                 Button(onClick = {
-                    val newScore = scoreLocally(currentQuestion, "Book") // Simulate correct answer
+                    val newScore = scoreLocally(currentQuestion, "Book")
                     updateQuestionScore(questions, currentQuestionIndex, newScore) { newQuestions ->
                         questions = newQuestions
+                        val updatedTotalScore = calculateTotalScore(newQuestions)
+                        feedbackMessage = "Current Score: $newScore, Total Score: $updatedTotalScore / $maxScore"
                     }
-                    feedbackMessage = "Question $questionId scored locally with: $newScore"
                 }) {
                     Text("Score Locally (Correct)")
                 }
                 Spacer(modifier = Modifier.width(16.dp))
 
-                // Button to simulate an answer requiring server evaluation
                 Button(onClick = {
                     feedbackMessage = "Submitting Q:$questionId to server..."
-                    // In a real app, you would get a file path from a drawing canvas or camera
                     val dummyFile = createDummyFile(context, "dummy_drawing_for_q$questionId.png")
                     submitAndPoll(
                         question = currentQuestion,
@@ -134,8 +122,9 @@ fun QuizScreen() {
                         onResult = { resultScore ->
                             updateQuestionScore(questions, currentQuestionIndex, resultScore) { newQuestions ->
                                 questions = newQuestions
+                                val updatedTotalScore = calculateTotalScore(newQuestions)
+                                feedbackMessage = "Current Score: $resultScore, Total Score: $updatedTotalScore / $maxScore"
                             }
-                            feedbackMessage = "Server returned score for Q:$questionId: $resultScore"
                         }
                     )
                 }) {
@@ -145,7 +134,6 @@ fun QuizScreen() {
 
             Spacer(modifier = Modifier.height(50.dp))
 
-            // --- Navigation Buttons ---
             Row {
                 Button(
                     onClick = { if (currentQuestionIndex > 0) currentQuestionIndex-- },
@@ -171,27 +159,31 @@ fun QuizScreen() {
     }
 }
 
-
 // --- 3. Helper Functions ---
 
-/**
- * Loads questions from the assets folder.
- */
+private fun calculateTotalScore(questions: List<JSONObject>): Int {
+    return questions.sumOf {
+        it.optString("userScore", "0").toIntOrNull() ?: 0
+    }
+}
+
 private fun loadQuestions(context: Context): List<JSONObject> {
     return try {
         val jsonString = context.assets.open("questions_en.json").bufferedReader().use { it.readText() }
         val jsonArray = JSONArray(jsonString)
-        List(jsonArray.length()) { i -> jsonArray.getJSONObject(i) }
+        List(jsonArray.length()) { i ->
+            val question = jsonArray.getJSONObject(i)
+            if (!question.has("userScore")) {
+                question.put("userScore", "")
+            }
+            question
+        }
     } catch (e: IOException) {
         e.printStackTrace()
         emptyList()
     }
 }
 
-/**
- * Updates the score of a question in the list.
- * This is crucial for Compose to recognize the state change.
- */
 private fun updateQuestionScore(
     currentList: List<JSONObject>,
     index: Int,
@@ -200,27 +192,21 @@ private fun updateQuestionScore(
 ) {
     val updatedList = currentList.toMutableList()
     val questionToUpdate = updatedList[index]
-    questionToUpdate.put("Score", newScore)
+    questionToUpdate.put("userScore", newScore)
     onUpdate(updatedList)
 }
 
-/**
- * Simple local scoring logic.
- */
 private fun scoreLocally(question: JSONObject, userAnswer: String): String {
     val correctAnswers = question.getJSONArray("correctTextAnswers")
     if (correctAnswers.length() > 0) {
         val correctAnswer = correctAnswers.getString(0)
         if (userAnswer.equals(correctAnswer, ignoreCase = true)) {
-            return "1"
+            return question.optString("Score", "1")
         }
     }
     return "0"
 }
 
-/**
- * Creates a dummy file in the app's cache directory for testing uploads.
- */
 private fun createDummyFile(context: Context, fileName: String): File {
     val file = File(context.cacheDir, fileName)
     file.createNewFile()
@@ -228,10 +214,6 @@ private fun createDummyFile(context: Context, fileName: String): File {
     return file
 }
 
-
-/**
- * The combined "submit and poll" function.
- */
 private fun submitAndPoll(
     question: JSONObject,
     imageFile: File,
@@ -242,9 +224,8 @@ private fun submitAndPoll(
 ) {
     val questionId = question.getInt("id")
 
-    scope.launch(Dispatchers.IO) { // Use IO dispatcher for network calls
+    scope.launch(Dispatchers.IO) {
         try {
-            // --- Step 1: Submit the drawing and get a task ID ---
             val requestFile = imageFile.asRequestBody("image/png".toMediaTypeOrNull())
             val imagePart = MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
             val idPart = RequestBody.create("text/plain".toMediaTypeOrNull(), questionId.toString())
@@ -257,9 +238,8 @@ private fun submitAndPoll(
                     pendingTasks[taskId] = questionId
                 }
 
-                // --- Step 2: Start polling in a loop ---
                 while (pendingTasks.containsKey(taskId)) {
-                    delay(10000) // Poll every 10 seconds (adjust for production)
+                    delay(10000)
 
                     val resultResponse = apiService.getEvaluationResult(taskId)
 
@@ -269,13 +249,12 @@ private fun submitAndPoll(
                             onResult(finalScore)
                             pendingTasks.remove(taskId)
                         }
-                        break // Exit the while loop
+                        break
                     }
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            // Handle error, maybe show a message to the user
         }
     }
 }

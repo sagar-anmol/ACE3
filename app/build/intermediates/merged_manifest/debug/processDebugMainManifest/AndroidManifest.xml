@@ -10,6 +10,7 @@
 
     <!-- 🔹 PERMISSIONS YAHAN AAYENGE (application ke bahar) -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <permission
         android:name="com.example.myapplication.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
@@ -29,12 +30,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:testOnly="true"
-        android:theme="@style/Theme.MyApplication" >
+        android:theme="@style/Theme.MyApplication"
+        android:usesCleartextTraffic="true" >
         <activity
             android:name="com.example.myapplication.MainActivity"
+            android.theme="@style/Theme.MyApplication"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.MyApplication" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

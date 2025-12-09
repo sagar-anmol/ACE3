@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:2:1-33:12
-INJECTED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:2:1-33:12
-INJECTED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:2:1-33:12
-INJECTED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:2:1-33:12
+ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:2:1-35:12
+INJECTED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:2:1-35:12
+INJECTED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:2:1-35:12
+INJECTED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:2:1-35:12
 MERGED from [androidx.navigationevent:navigationevent-android:1.0.0] C:\Users\LENOVO\.gradle\caches\8.13\transforms\8cd88919b81e1a09e7d324be2a9680e5\transformed\navigationevent\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.navigationevent:navigationevent-compose-android:1.0.0] C:\Users\LENOVO\.gradle\caches\8.13\transforms\28370e46251170f41615cd49db3ed80d\transformed\navigationevent-compose\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material3:material3-android:1.3.0] C:\Users\LENOVO\.gradle\caches\8.13\transforms\90c1df8dbaee76ed4245be0e714da592\transformed\material3-release\AndroidManifest.xml:17:1-22:12
@@ -79,9 +79,13 @@ uses-permission#android.permission.RECORD_AUDIO
 ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:7:5-71
 	android:name
 		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:7:22-68
+uses-permission#android.permission.INTERNET
+ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:8:5-67
+	android:name
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:8:22-64
 application
-ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:9:5-31:19
-INJECTED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:9:5-31:19
+ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:10:5-33:19
+INJECTED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:10:5-33:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.9.2] C:\Users\LENOVO\.gradle\caches\8.13\transforms\60ac01ccd0fc99b367bb1c2b0776ab4a\transformed\ui-tooling\AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.9.2] C:\Users\LENOVO\.gradle\caches\8.13\transforms\60ac01ccd0fc99b367bb1c2b0776ab4a\transformed\ui-tooling\AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.compose.ui:ui-test-manifest:1.9.2] C:\Users\LENOVO\.gradle\caches\8.13\transforms\425637515fec80563a9228ede0c63bc6\transformed\ui-test-manifest-1.9.2\AndroidManifest.xml:22:5-27:19
@@ -103,43 +107,45 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\LE
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.17.0] C:\Users\LENOVO\.gradle\caches\8.13\transforms\e4d9df7ebe2f42b882fdf9fd4156e219\transformed\core-1.17.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:16:9-35
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:17:9-35
 	android:label
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:14:9-41
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:15:9-41
 	android:fullBackupContent
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:12:9-54
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:13:9-54
 	android:roundIcon
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:15:9-54
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:16:9-54
 	tools:targetApi
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:18:9-29
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:20:9-29
 	android:icon
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:13:9-43
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:14:9-43
 	android:allowBackup
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:10:9-35
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:11:9-35
 	android:theme
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:17:9-51
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:18:9-51
 	android:dataExtractionRules
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:11:9-65
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:12:9-65
+	android:usesCleartextTraffic
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:19:9-44
 activity#com.example.myapplication.MainActivity
-ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:20:9-29:20
+ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:22:9-31:20
 	android:label
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:23:13-45
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:25:13-45
+	android.theme
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:26:13-55
 	android:exported
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:22:13-36
-	android:theme
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:24:13-55
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:24:13-36
 	android:name
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:21:13-41
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:23:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:25:13-28:29
+ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:27:13-30:29
 action#android.intent.action.MAIN
-ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:26:17-69
+ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:28:17-69
 	android:name
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:26:25-66
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:28:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:27:17-77
+ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:29:17-77
 	android:name
-		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:27:27-74
+		ADDED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml:29:27-74
 uses-sdk
 INJECTED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\sih2025\ddd\app\src\main\AndroidManifest.xml

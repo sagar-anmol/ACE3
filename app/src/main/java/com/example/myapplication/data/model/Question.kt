@@ -17,6 +17,7 @@ data class Question(
     val description: String,
     val type: QuestionType,
     val score: Int = 10, // Default score for each question
+    val category: String? = null, // Added this line
     val options: List<String> = emptyList(),
     val correctOptionIndex: Int? = null,
     val correctTextAnswers: List<String> = emptyList(),

@@ -32,7 +32,8 @@ fun ResultScreen(
     textAnswers: List<String>,
     actionScores: List<Int?>,
     serverScores: List<String?>,
-    onRestart: () -> Unit
+    onRestart: () -> Unit,
+    onViewDetailedReport: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val apiRepository = remember { ApiRepository() }
@@ -65,7 +66,7 @@ fun ResultScreen(
                     submissionStatus = "${response.message}\nScore: ${response.score}/${questions.size * 10}\nServer Status: ${response.statusCode}"
                     isUploading = false
                 }
-            }) { Text("Submit Your Results") }
+            }) { Text("Submit") }
         } else {
             Text(
                 text = submissionStatus!!,
@@ -76,7 +77,9 @@ fun ResultScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
         if (!isUploading) {
-            Button(onClick = onRestart) { Text("Back to Start") }
+            Button(onClick = onViewDetailedReport) { Text("View Detailed Report") }
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = onRestart) { Text("Restart Test") }
         }
     }
 }
