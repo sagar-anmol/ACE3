@@ -31,12 +31,12 @@ class ApiRepository {
             when (question.type) {
                 QuestionType.SINGLE_CHOICE -> {
                     if (selectedOptions.getOrNull(index) == question.correctOptionIndex) {
-                        totalScore += 10 // Or any score you want to assign
+                        totalScore += question.score
                     }
                 }
                 QuestionType.TEXT -> {
                     if (question.correctTextAnswers.any { it.equals(textAnswers.getOrNull(index), ignoreCase = true) }) {
-                        totalScore += 10 // Or any score you want to assign
+                        totalScore += question.score
                     }
                 }
                 QuestionType.ACTION_SEQUENCE -> {
