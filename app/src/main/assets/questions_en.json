@@ -505,6 +505,7 @@
     "title": "Identify the letter in the image",
     "description": "",
     "type": "AUDIO",
+    "image": "k.png",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": ["K"]
@@ -514,6 +515,7 @@
     "title": "Identify the letter in the image",
     "description": "",
     "type": "AUDIO",
+    "image": "m.png",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": ["M"]
@@ -523,6 +525,7 @@
     "title": "Identify the letter in the image",
     "description": "",
     "type": "AUDIO",
+    "image": "a.png",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": ["A"]
@@ -532,6 +535,7 @@
     "title": "Identify the letter in the image",
     "description": "",
     "type": "AUDIO",
+    "image": "t.png",
     "options": [],
     "correctOptionIndex": -1,
     "correctTextAnswers": ["T"]

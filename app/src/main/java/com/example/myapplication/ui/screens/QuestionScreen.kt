@@ -219,14 +219,42 @@ fun QuestionScreen(
 
                     // ---------------- AUDIO ----------------
                     QuestionType.AUDIO -> {
+
+                        // SHOW LETTER IMAGE
+                        question.image?.let { img ->
+                            val imgId = context.resources.getIdentifier(
+                                img.substringBefore("."), "drawable", context.packageName
+                            )
+
+                            if (imgId != 0) {
+                                Image(
+                                    painter = painterResource(id = imgId),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(260.dp)
+                                        .padding(bottom = 16.dp),
+                                    contentScale = ContentScale.Fit
+                                )
+                            }
+                        }
+
+                        // AUDIO RECORDER UI
                         AudioRecorderView(
                             questionId = question.id,
                             existingPath = audioPath,
                             onAudioRecorded = onAudioRecorded
                         )
-                        Spacer(Modifier.height(16.dp))
-                        Text("Tap to record your answer")
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text(
+                            "Tap to record your answer",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.LightGray
+                        )
                     }
+
 
                     else -> { /* fallback text */ }
                 }
