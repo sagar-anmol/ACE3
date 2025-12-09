@@ -28,12 +28,14 @@ fun ImageUploadScreen(
 
     Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
 
-        Image(
-            painter = painterResource(diagramResId),
-            contentDescription = null,
-            modifier = Modifier.size(300.dp),
-            contentScale = ContentScale.Fit
-        )
+        if (diagramResId != 0) {
+            Image(
+                painter = painterResource(id = diagramResId),
+                contentDescription = null,
+                modifier = Modifier.size(250.dp)
+            )
+        }
+
 
         Spacer(modifier = Modifier.height(20.dp))
 
