@@ -27,6 +27,7 @@ import com.example.myapplication.data.model.UserInfo
 import com.example.myapplication.ui.components.AnimatedProgressBar
 import com.example.myapplication.ui.components.AudioRecorderView
 import com.example.myapplication.ui.components.BigButton
+import java.io.File
 import java.util.Locale
 
 @Composable
@@ -37,13 +38,15 @@ fun QuestionScreen(
     totalQuestions: Int,
     selectedOption: Int?,
     textAnswer: String,
-
     audioPath: String?,
     actionScore: Int? = null,
+    serverScore: String?,
+    isPending: Boolean,
     onSelectOption: (Int) -> Unit,
     onTextChange: (String) -> Unit,
     onAudioRecorded: (String) -> Unit,
     onActionSequenceCompleted: (Int) -> Unit = {},
+    onUploadImage: (File) -> Unit,
     onPrev: () -> Unit,
     onNext: () -> Unit
 ) {
@@ -177,7 +180,12 @@ fun QuestionScreen(
                             selectedImage = selectedImage,
                             onImageSelected = { uri ->
                                 selectedImage = uri
-                                onSelectOption(if (uri != null) 1 else 0)
+                                if (uri != null) {
+                                    val file = uri.path?.let { File(it) }
+                                    if (file != null) {
+                                        onUploadImage(file)
+                                    }
+                                }
                             }
                         )
                     }
@@ -268,7 +276,7 @@ fun QuestionScreen(
             QuestionType.AUDIO -> audioPath != null
             QuestionType.ACTION_SEQUENCE -> actionScore != null
             QuestionType.IMAGE_MAP_SELECTION -> selectedOption != null
-            QuestionType.IMAGE_UPLOAD -> selectedImage != null
+            QuestionType.IMAGE_UPLOAD -> selectedImage != null || isPending || serverScore != null
         }
 
         BigButton(

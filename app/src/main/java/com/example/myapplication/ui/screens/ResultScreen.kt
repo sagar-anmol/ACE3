@@ -31,6 +31,7 @@ fun ResultScreen(
     selectedOptions: List<Int?>,
     textAnswers: List<String>,
     actionScores: List<Int?>,
+    serverScores: List<String?>,
     onRestart: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
