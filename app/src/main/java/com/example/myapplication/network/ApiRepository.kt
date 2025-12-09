@@ -1,6 +1,7 @@
 package com.example.myapplication.network
 
 import com.example.myapplication.data.model.Question
+import com.example.myapplication.data.model.QuestionType
 import com.example.myapplication.data.model.UserInfo
 import kotlinx.coroutines.delay
 
@@ -18,14 +19,38 @@ class ApiRepository {
         userInfo: UserInfo,
         questions: List<Question>,
         selectedOptions: List<Int?>,
-        textAnswers: List<String>
+        textAnswers: List<String>,
+        actionScores: List<Int?>
     ): ServerResponse {
         // Simulate a network delay of 2 seconds
         delay(2000)
 
-        // Return a fake success response with full marks (assuming 100 is full)
+        var totalScore = 0
+
+        questions.forEachIndexed { index, question ->
+            when (question.type) {
+                QuestionType.SINGLE_CHOICE -> {
+                    if (selectedOptions.getOrNull(index) == question.correctOptionIndex) {
+                        totalScore += 10 // Or any score you want to assign
+                    }
+                }
+                QuestionType.TEXT -> {
+                    if (question.correctTextAnswers.any { it.equals(textAnswers.getOrNull(index), ignoreCase = true) }) {
+                        totalScore += 10 // Or any score you want to assign
+                    }
+                }
+                QuestionType.ACTION_SEQUENCE -> {
+                    totalScore += actionScores.getOrNull(index) ?: 0
+                }
+                else -> {
+                    // For other question types, you might have different logic
+                }
+            }
+        }
+
+        // Return a fake success response with the calculated score
         return ServerResponse(
-            score = 100,
+            score = totalScore,
             message = "Success",
             statusCode = 200
         )

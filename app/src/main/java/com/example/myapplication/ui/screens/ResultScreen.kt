@@ -30,6 +30,7 @@ fun ResultScreen(
     questions: List<Question>,
     selectedOptions: List<Int?>,
     textAnswers: List<String>,
+    actionScores: List<Int?>,
     onRestart: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -57,9 +58,10 @@ fun ResultScreen(
                         userInfo,
                         questions,
                         selectedOptions,
-                        textAnswers
+                        textAnswers,
+                        actionScores
                     )
-                    submissionStatus = "${response.message}\nScore: ${response.score}/100\nServer Status: ${response.statusCode}"
+                    submissionStatus = "${response.message}\nScore: ${response.score}/${questions.size * 10}\nServer Status: ${response.statusCode}"
                     isUploading = false
                 }
             }) { Text("Submit Your Results") }
