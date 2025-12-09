@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.Manifest
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -205,20 +206,33 @@ fun DementiaRemoteSelfTestApp() {
         }
     } else {
         when (currentScreen) {
-            ScreenState.INTRO_1 -> IntroScreen1(onNext = { currentScreen = ScreenState.INTRO_2 })
+            ScreenState.INTRO_1 -> IntroScreen1(onNext = { 
+                currentScreen = ScreenState.INTRO_2
+                Toast.makeText(context, "Intro 2", Toast.LENGTH_SHORT).show()
+            })
 
             ScreenState.INTRO_2 -> IntroScreen2(
-                onBack = { currentScreen = ScreenState.INTRO_1 },
-                onNext = { currentScreen = ScreenState.INTRO_3 }
+                onBack = { 
+                    currentScreen = ScreenState.INTRO_1
+                    Toast.makeText(context, "Intro 1", Toast.LENGTH_SHORT).show()
+                },
+                onNext = { 
+                    currentScreen = ScreenState.INTRO_3
+                    Toast.makeText(context, "Intro 3", Toast.LENGTH_SHORT).show()
+                }
             )
 
             ScreenState.INTRO_3 -> IntroScreen3(
                 userInfo = userInfo,
                 onUserInfoChange = { userInfo = it },
-                onBack = { currentScreen = ScreenState.INTRO_2 },
+                onBack = { 
+                    currentScreen = ScreenState.INTRO_2
+                    Toast.makeText(context, "Intro 2", Toast.LENGTH_SHORT).show()
+                },
                 onStartTest = {
                     currentIndex = 0
                     currentScreen = ScreenState.TEST
+                    Toast.makeText(context, "Test Screen", Toast.LENGTH_SHORT).show()
                 }
             )
 
@@ -249,17 +263,29 @@ fun DementiaRemoteSelfTestApp() {
                         actionScores[currentIndex] = score
                         if (currentIndex < questions.size - 1) {
                             currentIndex++
+                            Toast.makeText(context, "Next Question", Toast.LENGTH_SHORT).show()
                         } else {
                             currentScreen = ScreenState.RESULT
+                            Toast.makeText(context, "Result Screen", Toast.LENGTH_SHORT).show()
                         }
                     },
                     onPrev = {
-                        if (currentIndex > 0) currentIndex--
-                        else currentScreen = ScreenState.INTRO_3
+                        if (currentIndex > 0) {
+                            currentIndex--
+                            Toast.makeText(context, "Previous Question", Toast.LENGTH_SHORT).show()
+                        } else {
+                            currentScreen = ScreenState.INTRO_3
+                            Toast.makeText(context, "Intro 3", Toast.LENGTH_SHORT).show()
+                        }
                     },
                     onNext = {
-                        if (currentIndex < questions.size - 1) currentIndex++
-                        else currentScreen = ScreenState.RESULT
+                        if (currentIndex < questions.size - 1) {
+                            currentIndex++
+                            Toast.makeText(context, "Next Question", Toast.LENGTH_SHORT).show()
+                        } else {
+                            currentScreen = ScreenState.RESULT
+                            Toast.makeText(context, "Result Screen", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 )
             }
@@ -272,7 +298,10 @@ fun DementiaRemoteSelfTestApp() {
                 actionScores = actionScores,
                 // --- ADDED parameter for showing final server scores ---
                 serverScores = serverScores,
-                onRestart = { resetTest() }
+                onRestart = { 
+                    resetTest()
+                    Toast.makeText(context, "Restarting Test", Toast.LENGTH_SHORT).show()
+                }
             )
         }
     }

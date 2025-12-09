@@ -55,7 +55,23 @@ dimen notification_small_icon_size_as_large
 dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
+drawable a
+drawable abc_vector_test
+drawable book
 drawable box
+drawable camel
+drawable candle
+drawable crocodile
+drawable cube
+drawable dots1
+drawable dots2
+drawable dots3
+drawable dots4
+drawable drum
+drawable flag
+drawable full_grid
+drawable giraffe
+drawable goat
 drawable ic_call_answer
 drawable ic_call_answer_low
 drawable ic_call_answer_video
@@ -64,6 +80,9 @@ drawable ic_call_decline
 drawable ic_call_decline_low
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable infinity
+drawable k
+drawable m
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -79,6 +98,11 @@ drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable paper
 drawable pencil
+drawable pig
+drawable sickle
+drawable spoon
+drawable t
+drawable umbrella
 id accessibility_action_clickable_span
 id accessibility_custom_action_0
 id accessibility_custom_action_1
@@ -121,6 +145,7 @@ id androidx_compose_ui_view_composition_context
 id async
 id blocking
 id chronometer
+id coil_request_manager
 id compose_prefetch_scheduler
 id compose_view_saveable_id_tag
 id consume_window_insets_tag
@@ -287,6 +312,9 @@ style TextAppearance_Compat_Notification_Title
 style Theme_MyApplication
 style Widget_Compat_NotificationActionContainer
 style Widget_Compat_NotificationActionText
+styleable AnimatedStateListDrawableCompat android_dither android_visible android_variablePadding android_constantSize android_enterFadeDuration android_exitFadeDuration
+styleable AnimatedStateListDrawableItem android_id android_drawable
+styleable AnimatedStateListDrawableTransition android_drawable android_toId android_fromId android_reversible
 styleable Capability queryPatterns shortcutMatchRequired
 styleable ColorStateListItem android_color android_alpha android_lStar alpha lStar
 styleable FontFamily fontProviderAuthority fontProviderCerts fontProviderFallbackQuery fontProviderFetchStrategy fontProviderFetchTimeout fontProviderPackage fontProviderQuery fontProviderSystemFontFamily
@@ -294,5 +322,7 @@ styleable FontFamilyFont android_font android_fontWeight android_fontStyle andro
 styleable FontFamilyProviderFallback fontProviderQuery fontProviderSystemFontFamily fontVariationSettings
 styleable GradientColor android_startColor android_endColor android_type android_centerX android_centerY android_gradientRadius android_tileMode android_centerColor android_startX android_startY android_endX android_endY
 styleable GradientColorItem android_color android_offset
+styleable StateListDrawable android_dither android_visible android_variablePadding android_constantSize android_enterFadeDuration android_exitFadeDuration
+styleable StateListDrawableItem android_drawable
 xml backup_rules
 xml data_extraction_rules
